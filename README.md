@@ -8,8 +8,6 @@ Open http://localhost:5001
 
 ### TODO
 
-* convert other layout elements — header, sidebar, footer and main container
-
 * make production build — fix production webpack config, create file with common webpack config
 
 
