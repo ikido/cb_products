@@ -6,10 +6,10 @@ import Notfound from 'views/errors/not_found';
 
 const routes =
 	<Router history={ hashHistory }>
-  	<Route path='/' component={ Layout }>
+		<Route path='/' component={ Layout }>
 			<IndexRoute component={ ProductSearch } />
-	  	<Route path="*" component={ Notfound } />
-	  </Route>
-  </Router>
+			<Route path="*" component={ Notfound } />
+		</Route>
+	</Router>
 
 export default routes
