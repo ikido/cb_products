@@ -11,6 +11,16 @@ Open http://localhost:5001
 `npm build`, then deploy `/dist` folder
 
 
+### TODO
+
+* save logged in user data to localstorage
+
+* whenever server returns error 403 we should redirect to login page
+
+* we need common way to display errors — inline or via some kind of messanging
+
+* unauthenticated user should get no layout
+
 
 ### TODO later
 
@@ -21,3 +31,12 @@ Open http://localhost:5001
 * images should also be managed by webpack, not sure how at this point
 
 * use browserHistory for react-router, but server must support it
+
+* we have login, what about logout?
+
+
+### NOTES
+
+* would be nice to get all attributes and presets preloaded for product search page
+
+* it's bad that after unsuccessfull login we still get HTTP 200 page
