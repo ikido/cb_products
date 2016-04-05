@@ -1,16 +1,17 @@
 {
   "name": "cb-products",
   "version": "0.0.1",
-  "main": "index.js",
   "scripts": {
     "start": "node server.js",
     "build": "BABEL_ENV=production ./node_modules/.bin/webpack --config webpack.config.production.js",
-    "lint": "./node_modules/.bin/eslint ."
+    "lint": "./node_modules/.bin/eslint ./javascripts"
   },
   "dependencies": {
+    "babel-runtime": "^6.3.19",
+    "history": "^2.0.1",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
-    "babel-runtime": "^6.3.19"
+    "react-router": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.21",
