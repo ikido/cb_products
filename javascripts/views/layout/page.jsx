@@ -19,11 +19,13 @@ export default class PageLayout extends Component {
           </ol>
         </div>
 
-        <div className="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h1 className="page-title txt-color-blueDark">
             <i className="fa-fw fa fa-home" /> 
             { this.props.title }
           </h1>
+
+          { this.props.children }
           
         </div>
       </div>
