@@ -1,4 +1,4 @@
-### Usage
+### Development
 
 ```
 npm install
@@ -6,9 +6,10 @@ npm start
 Open http://localhost:5001
 ```
 
-### TODO
 
-* make production build — fix production webpack config, create file with common webpack config
+### Deploy
+`npm build`, then deploy `/dist` folder
+
 
 
 ### TODO later

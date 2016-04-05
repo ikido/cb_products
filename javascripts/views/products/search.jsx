@@ -13,7 +13,7 @@ export default class ProductSearch extends Component {
           <thead>
             <tr>
               <th>#</th>
-              <th>First Name</th>
+              <th>First Name 1</th>
               <th>Last Name</th>
               <th>Username</th>
             </tr>

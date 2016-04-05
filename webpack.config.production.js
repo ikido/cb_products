@@ -3,16 +3,16 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  entry: './app',
+  entry: './javascripts/app',
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
-    publicPath: '/'
+    path: path.join(__dirname, 'dist', 'javascripts'),
+    filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['', '.js']
+    root: path.resolve(__dirname, "javascripts"),
+    extensions: ['', '.js', '.jsx']
   },
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
@@ -31,15 +31,12 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
-        exclude: /node_modules/,
-        include: path.join(__dirname, 'scripts')
+        exclude: /node_modules/
       },
-      ,
       {
         test: /\.js?$/,
         loaders: ['babel'],
-        exclude: /node_modules/,
-        include: path.join(__dirname, 'scripts')
+        exclude: /node_modules/
       }
     ]
   }

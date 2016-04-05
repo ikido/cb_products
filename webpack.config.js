@@ -9,12 +9,12 @@ module.exports = {
     './javascripts/app'
   ],
   output: {
-    path: __dirname,
+    path: path.resolve(__dirname, "dist"),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/javascripts/'
   },
   resolve: {
-    root: [path.join(__dirname, 'javascripts')],
+    root: path.resolve(__dirname, "javascripts"),
     extensions: ['', '.js', '.jsx']
   },
   devtool: 'eval-source-map',
