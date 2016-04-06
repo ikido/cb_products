@@ -91,7 +91,7 @@ export default class ProductSearch extends Component {
               <tr key={ product.id }>
                 <td>{ index }</td>
                 { columns.map((columnName, colIndex) => 
-                  <td key={ colIndex }>{ toString(result(product, columnName)) }</td>
+                  <td key={ colIndex }>{ toString(result(product.toJson(), columnName)) }</td>
                 )}
               </tr>
             )}

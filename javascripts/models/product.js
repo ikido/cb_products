@@ -2,18 +2,19 @@
 
 import { API, BaseModel } from 'mobx-model';
 import { SearchStore } from 'stores';
+import { underscore } from 'inflection';
 
 export default class Product extends BaseModel {
 	
 	static attributes = {
-		ean_or_upc: null,
-		erp_id: null,
+		eanOrUpc: null,
+		erpId: null,
 		mpn: null,
 		outlets: [],
 		ids: [],
-		erp_description: null,
+		erpDescription: null,
 		attributes: [],
-		manufacturer_id: null,
+		manufacturerId: null,
 		manufacturer: null
 	}
 
@@ -41,6 +42,16 @@ export default class Product extends BaseModel {
     });
 	}
 
-}
+	toJson() {
+		let json = { id: this.id }
 
-window.Product = Product
+		Object.keys(this.constructor.attributes).forEach(attributeName => {
+			json[underscore(attributeName)] = this[attributeName]
+		})
+
+		// TODO: add relation ids here as well
+
+		return json;
+	}
+
+}

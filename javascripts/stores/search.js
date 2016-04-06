@@ -40,7 +40,6 @@ class SearchStore {
    */
 
   _findResults(id) {
-    console.log(this)
     return this.searchResults.find(results => 
       results.id === id
     );
