@@ -32,19 +32,18 @@ export default class ProductSearch extends Component {
 			username: this.state.username,
 			password: this.state.password
 		}).then((response) => {
-			const { location } = this.props
+			if (response.ok) {
+				const { location } = this.props
 
-			if (location.state && location.state.nextPathname) {
-        this.context.router.replace(location.state.nextPathname)
-      } else {
-        this.context.router.replace('/')
-      }
-		}).catch((err) => {
-			let { errors, response } = err;
-			
-			alert('error: cannot log in');
-			console.error(errors, response);
-			// TODO: display error
+				if (location.state && location.state.nextPathname) {
+	        this.context.router.replace(location.state.nextPathname)
+	      } else {
+	        this.context.router.replace('/')
+	      }
+	    } else {
+	    	alert('error: cannot log in');
+				console.error(response);
+	    }
 		});
 	}
 

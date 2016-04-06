@@ -40,3 +40,5 @@ Open http://localhost:5001
 * it's bad that after unsuccessfull login we still get HTTP 200 page
 
 * it would be good to have an endpoint to refresh the token by sending valid one, so that user won't have to login http://stackoverflow.com/a/26834685/1657839. 
+
+* in the docs you say header should be Authentication but it should be Authorization: `Bearer

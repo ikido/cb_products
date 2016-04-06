@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import Page from 'views/layout/page';
 import Table from 'react-bootstrap/lib/Table';
+import { AttributeType } from 'models';
 
 export default class ProductSearch extends Component {
+
+  componentDidMount() {
+    AttributeType.loadAll();
+  }
+
 	render() {
 		return (
       <Page
