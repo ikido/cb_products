@@ -18,7 +18,12 @@ export default class ProductSearch extends Component {
   state = {
     preloading: false,
     searching: false,
-    columns: '',
+    columns: `erp_id
+erp_description
+attributes.ansi_lumen
+outlets.bisnl.attributes.description_html
+outlets.bisnl.attributes.available_website
+outlets.bisnl.attributes.picture`,
     query: '_exists_: attributes.ansi_lumen AND Hitachi',
     page: 1
   };
