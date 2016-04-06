@@ -13,11 +13,9 @@ Open http://localhost:5001
 
 ### TODO
 
-* save logged in user data to localstorage
-
 * whenever server returns error 403 we should redirect to login page
 
-* we need common way to display errors — inline or via some kind of messanging
+* we need common way to display errors — inline or via some kind of messaging, like this: http://igorprado.com/react-notification-system/
 
 * unauthenticated user should get no layout
 
@@ -40,3 +38,5 @@ Open http://localhost:5001
 * would be nice to get all attributes and presets preloaded for product search page
 
 * it's bad that after unsuccessfull login we still get HTTP 200 page
+
+* it would be good to have an endpoint to refresh the token by sending valid one, so that user won't have to login http://stackoverflow.com/a/26834685/1657839. 

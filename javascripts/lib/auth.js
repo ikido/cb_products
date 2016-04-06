@@ -1,17 +1,14 @@
 'use strict';
 
-import { extendObservable } from 'mobx';
-import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
 import request from 'superagent';
 
 const urlRoot = 'https://products.test.cb.bis.nl/api';
 
-const auth = {
+let auth = {
 	
 	login(attributes = {}) {
-
 		let { username, password } = attributes;
 
 		return new Promise((resolve, reject) => {
@@ -20,19 +17,9 @@ const auth = {
 				.query({ username, password })
 				.end((err, response) => {
 					if (response.ok && response.body.success) {
-						this.token = response.body.token;
-
-						/*
-						 * TODO: this can throw an error it token is invalid, 
-						 * need to catch it and display in UI
-						 */
-
-						let decodedToken = jwtDecode(this.token); 
-						this.tokenExpiresAt = decodedToken.expires;
-						this.username = decodedToken.username;
-
+						this._token = response.body.token;						
+						localStorage.setItem('auth-token', this._token);
 						resolve(response);
-
 					} else {
 						// TODO: if request was unsuccessfull we should display error
 						reject({ err, response });
@@ -43,14 +30,23 @@ const auth = {
 	},
 
 	loggedIn() {
-		return (!isEmpty(this.token) && moment(this.tokenExpiresAt).isAfter(Date.new));
+		try {
+			let decodedToken = jwtDecode(this._token); 
+			return moment(decodedToken.expires).isAfter(Date.new);
+		} catch (err) {
+			return false
+		}
 	}
 }
 
-extendObservable(auth, {
-	token: null,
-	tokenExpiresAt: 0,
-	username: ''
+// create getter for the token
+Object.defineProperty(auth, 'token', {
+	get: () => { return this._token; }
+});
+
+// read token from localstorage on load
+Object.assign(auth, {
+	_token: localStorage.getItem('auth-token')
 });
 
 export default auth
