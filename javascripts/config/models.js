@@ -8,8 +8,8 @@ BaseModel.getModel = (modelName) => {
 BaseModel.addClassAction('loadAll', function() {
   return API.request({
     endpoint: `${this.urlRoot}`,
-    onSuccess: (json) => {
-      json.forEach(modelJson => {
+    onSuccess: (response) => {
+      response.body.forEach(modelJson => {
       	this.set({ modelJson })
       });      
     }

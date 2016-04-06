@@ -12,14 +12,12 @@
     "jwt-decode": "^2.0.1",
     "lodash": "^4.8.2",
     "mobx": "^2.0.5",
-    "mobx-model": "0.0.13",
+    "mobx-model": "0.0.17",
     "mobx-react": "^3.0.3",
-    "moment": "^2.12.0",
     "react": "^0.14.5",
     "react-bootstrap": "^0.28.5",
     "react-dom": "^0.14.5",
-    "react-router": "^2.0.1",
-    "superagent": "^1.8.3"
+    "react-router": "^2.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.21",

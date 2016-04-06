@@ -5,7 +5,9 @@
 'use strict'
 
 import AttributeType from 'models/attribute_type';
+import Product from 'models/product';
 
 export {
-	AttributeType
+	AttributeType,
+	Product
 }

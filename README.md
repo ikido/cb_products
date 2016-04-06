@@ -14,9 +14,13 @@ Open http://localhost:5001
 ### TODO
 
 * whenever server returns error 403 we should redirect to login page
-
+* above columns search box for attribute types to add them to the list
+* save button to save presets
+* dropdown of saved presets
+* live-edit and update preset
+* new preset
+* collapsible panes
 * we need common way to display errors — inline or via some kind of messaging, like this: http://igorprado.com/react-notification-system/
-
 * unauthenticated user should get no layout
 
 

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Col from 'react-bootstrap/lib/Col';
 
 export default class PageLayout extends Component {
 
@@ -19,7 +20,7 @@ export default class PageLayout extends Component {
           </ol>
         </div>
 
-        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <Col xs={12} sm={12} md={12} lg={12}>
           <h1 className="page-title txt-color-blueDark">
             <i className="fa-fw fa fa-home" /> 
             { this.props.title }
@@ -27,7 +28,7 @@ export default class PageLayout extends Component {
 
           { this.props.children }
           
-        </div>
+        </Col>
       </div>
     )
   }

@@ -1,6 +1,5 @@
 'use strict';
 
-import moment from 'moment';
 import jwtDecode from 'jwt-decode';
 import { API } from 'mobx-model';
 
@@ -26,7 +25,7 @@ let auth = {
 	loggedIn() {
 		try {
 			let decodedToken = jwtDecode(this._token); 
-			return moment(decodedToken.expires).isAfter(Date.new);
+			return new Date < new Date(decodedToken.expires)
 		} catch (err) {
 			return false
 		}
