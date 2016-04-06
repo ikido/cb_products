@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PropTypes, Component } from 'react';
 import Page from 'views/layout/page';
 
 import Table from 'react-bootstrap/lib/Table';
@@ -10,12 +10,15 @@ import Pagination from 'react-bootstrap/lib/Pagination';
 
 import uniqueId from 'lodash/uniqueId';
 import isEmpty from 'lodash/isEmpty';
-import result from 'lodash/result';
-import toString from 'lodash/toString';
+
 import compact from 'lodash/compact';
 
 import { Product, AttributeType } from 'models';
 import { SearchStore } from 'stores';
+import ColumnHeader from 'views/products/column_header';
+import ProductRow from 'views/products/product_row';
+
+
 
 export default class ProductSearch extends Component {
 
@@ -84,24 +87,6 @@ outlets.bisnl.attributes.picture`,
     return <h1>Searching...</h1> 
   }
 
-  renderColumnHeader(columnPath, index) {
-    return <th key={ index }>{ columnPath }</th>
-  }
-                
-  renderColumnContents(product, columnPath, index) {
-    let columnValue = result(product.toJson(), columnPath);
-    return <td key={ index }>{ toString(columnValue) }</td>
-  }
-
-  renderProductRow(columns, product, index) {
-    return (
-      <tr key={ product.id }>
-        <td>{ Product.perPage * (this.state.page - 1) + index + 1 }</td>
-        { columns.map(this.renderColumnContents.bind(this, product)) }
-      </tr>
-    )
-  }
-
   renderSearchResults() {
     let searchResults = SearchStore.get(this.searchId)
 
@@ -119,11 +104,20 @@ outlets.bisnl.attributes.picture`,
             <thead>
               <tr>
                 <th>#</th>
-                { columns.map(this.renderColumnHeader) }
+                { columns.map((column, index) => 
+                  <ColumnHeader key={ index } column={ column } />
+                )}
               </tr>
             </thead>
             <tbody>
-              { products.map(this.renderProductRow.bind(this, columns)) }
+              { products.map((product, index) => 
+                <ProductRow
+                  key={ product.id }
+                  product={ product }
+                  columns={ columns }
+                  index={ Product.perPage * (this.state.page - 1) + index + 1 }
+                />
+              )}
             </tbody>
           </Table>
 

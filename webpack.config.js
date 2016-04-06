@@ -28,11 +28,13 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
+        plugins: ['transform-decorators-legacy' ],
         exclude: /node_modules/
       },
       {
         test: /\.js?$/,
         loaders: ['babel'],
+        plugins: ['transform-decorators-legacy' ],
         exclude: /node_modules/
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },

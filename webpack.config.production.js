@@ -31,11 +31,13 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loaders: ['babel'],
+        plugins: ['transform-decorators-legacy' ],
         exclude: /node_modules/
       },
       {
         test: /\.js?$/,
         loaders: ['babel'],
+        plugins: ['transform-decorators-legacy' ],
         exclude: /node_modules/
       }
     ]
