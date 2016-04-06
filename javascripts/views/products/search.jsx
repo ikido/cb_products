@@ -9,6 +9,7 @@ import uniqueId from 'lodash/uniqueId';
 import isEmpty from 'lodash/isEmpty';
 import result from 'lodash/result';
 import toString from 'lodash/toString';
+import compact from 'lodash/compact';
 
 import { Product, AttributeType } from 'models';
 import { SearchStore } from 'stores';
@@ -79,7 +80,7 @@ outlets.bisnl.attributes.picture`,
 
     } else {
       let products = searchResults.results.map(id => Product.get(id))
-      let columns = this.state.columns.split("\n");
+      let columns = compact(this.state.columns.split("\n"));
 
       return (
         <Table bordered responsive>
