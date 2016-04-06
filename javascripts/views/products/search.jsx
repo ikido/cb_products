@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Page from 'views/layout/page';
+
 import Table from 'react-bootstrap/lib/Table';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Input from 'react-bootstrap/lib/Input';
 import Button from 'react-bootstrap/lib/Button';
+import Pagination from 'react-bootstrap/lib/Pagination';
+
 import uniqueId from 'lodash/uniqueId';
 import isEmpty from 'lodash/isEmpty';
 import result from 'lodash/result';
@@ -41,20 +44,14 @@ outlets.bisnl.attributes.picture`,
     });
   }
 
-  handleColumnsChange = (e) => {
-    this.setState({ columns: e.target.value });
-  }
+  performSearch(options = {}) {
+    let { page = this.state.page } = options;
 
-  handleQueryChange = (e) => {
-    this.setState({ query: e.target.value });
-  }
-
-  handleSearch = () => {
-    this.setState({ searching: true });
+    this.setState({ searching: true, page: page });
 
     Product.search({
       query: this.state.query,
-      page: this.state.page,
+      page: page,
       searchId: this.searchId
     }).then(response => {
       if (response.ok) {
@@ -63,12 +60,46 @@ outlets.bisnl.attributes.picture`,
     })
   }
 
+  handleColumnsChange = (e) => {
+    this.setState({ columns: e.target.value });
+  }
+
+  handleQueryChange = (e) => {
+    this.setState({ query: e.target.value });
+  }
+
+  handlePageChange = (event, selectedEvent) => {
+    this.setState({ page: selectedEvent.eventKey }, this.performSearch);
+  }
+
+  handleSearch = () => {
+    this.performSearch({ page: 1 })
+  }
+
   renderPreloading() {
     return <h1>Preloading...</h1>
   }
 
   renderSearching() {
-   return <h1>Searching...</h1> 
+    return <h1>Searching...</h1> 
+  }
+
+  renderColumnHeader(columnPath, index) {
+    return <th key={ index }>{ columnPath }</th>
+  }
+                
+  renderColumnContents(product, columnPath, index) {
+    let columnValue = result(product.toJson(), columnPath);
+    return <td key={ index }>{ toString(columnValue) }</td>
+  }
+
+  renderProductRow(columns, product, index) {
+    return (
+      <tr key={ product.id }>
+        <td>{ Product.perPage * (this.state.page - 1) + index + 1 }</td>
+        { columns.map(this.renderColumnContents.bind(this, product)) }
+      </tr>
+    )
   }
 
   renderSearchResults() {
@@ -83,26 +114,27 @@ outlets.bisnl.attributes.picture`,
       let columns = compact(this.state.columns.split("\n"));
 
       return (
-        <Table bordered responsive>
-          <thead>
-            <tr>
-              <th>#</th>
-              { columns.map((columnName, index) => 
-                <th key={ index }>{ columnName }</th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            { products.map((product, index) => 
-              <tr key={ product.id }>
-                <td>{ index }</td>
-                { columns.map((columnName, colIndex) => 
-                  <td key={ colIndex }>{ toString(result(product.toJson(), columnName)) }</td>
-                )}
+        <div>
+          <Table bordered responsive>
+            <thead>
+              <tr>
+                <th>#</th>
+                { columns.map(this.renderColumnHeader) }
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              { products.map(this.renderProductRow.bind(this, columns)) }
+            </tbody>
+          </Table>
+
+          <Pagination
+            disabled
+            bsSize="medium"
+            items={ 10 /* Math.ceil(searchResults.total / Product.perPage) */ }
+            activePage={ this.state.page }
+            onSelect={ this.handlePageChange }
+          />
+        </div>
       )
     }
   }

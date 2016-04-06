@@ -5,6 +5,8 @@ import { SearchStore } from 'stores';
 import { underscore } from 'inflection';
 
 export default class Product extends BaseModel {
+
+	static perPage = 20;
 	
 	static attributes = {
 		eanOrUpc: null,
@@ -23,7 +25,7 @@ export default class Product extends BaseModel {
 		let { query, page, searchId } = options;
 
 		return API.request({
-      data: { page, per_page: 20, es_query: query, column_type: 'objects' },
+      data: { page, per_page: this.constructor.perPage, es_query: query, column_type: 'objects' },
       endpoint: this.urlRoot,
       onSuccess: (response) => {
       	let products = response.body;
@@ -36,7 +38,8 @@ export default class Product extends BaseModel {
       	// set search results
         SearchStore.set(searchId, {
         	results: response.body.map(p => p.id),
-        	total: response.header['x-total-count']
+        	total: response.header['x-total-count'],
+        	page
         });
       }
     });

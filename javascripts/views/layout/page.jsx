@@ -20,7 +20,7 @@ export default class PageLayout extends Component {
           </ol>
         </div>
 
-        <Col xs={12} sm={12} md={12} lg={12}>
+        <Col xs={12} sm={12} md={12} lg={12}  style={{ paddingBottom: '180px'}}>
           <h1 className="page-title txt-color-blueDark">
             <i className="fa-fw fa fa-home" /> 
             { this.props.title }
