@@ -6,6 +6,7 @@ API.config({
 	requestHeaders() {
 		let headers = { Authorization: `Bearer ${auth.token}` };
 		console.log('setting headers for a request', headers);
+		
 		return headers;
 	},
   onRequestCompleted(response) {
