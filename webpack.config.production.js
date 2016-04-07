@@ -24,8 +24,12 @@ module.exports = {
       compress: {        
         warnings: false
       },
-      mangle: false
-    })
+      mangle: {
+        keep_fnames: true
+      }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.AggressiveMergingPlugin()
   ],
   module: {
     loaders: [

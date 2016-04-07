@@ -13,9 +13,9 @@ let auth = {
 		return API.request({
 			endpoint: '/login',
 			data: { username, password },
-			onSuccess: (json) => {
-				if (json.success) {
-					this._token = json.token;						
+			onSuccess: (response) => {
+				if (response.body.success) {
+					this._token = response.body.token;						
 					localStorage.setItem('auth-token', this._token);
 				}
 			}
