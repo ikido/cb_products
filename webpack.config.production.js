@@ -29,16 +29,12 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        loaders: ['babel'],
-        plugins: ['transform-decorators-legacy' ],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.js?$/,
-        loaders: ['babel'],
-        plugins: ['transform-decorators-legacy' ],
-        exclude: /node_modules/
+        test: /\.(jsx|js)?$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          plugins: ['transform-decorators-legacy']
+        }      
       }
     ]
   }
