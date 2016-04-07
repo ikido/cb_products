@@ -31,5 +31,5 @@ Open http://localhost:5001
 
 ### NOTES
 
-* would be nice to get all attributes and presets preloaded for product search page
-* it would be good to have an endpoint to refresh the token by sending valid one, so that user won't have to login http://stackoverflow.com/a/26834685/1657839. 
+* would be nice to get all attributes and presets preloaded for product search page (Issue #1)
+* it would be good to have an endpoint to refresh the token by sending valid one, so that user won't have to login http://stackoverflow.com/a/26834685/1657839.
