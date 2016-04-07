@@ -21,10 +21,10 @@ module.exports = {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        mangle: false,
+      compress: {        
         warnings: false
-      }
+      },
+      mangle: false
     })
   ],
   module: {
