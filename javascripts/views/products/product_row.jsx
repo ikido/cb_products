@@ -8,7 +8,7 @@ import ProductColumn from 'views/products/product_column';
 export default class ProductRow extends Component {
 
   static propTypes = {
-    columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+    columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     product: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired
   };

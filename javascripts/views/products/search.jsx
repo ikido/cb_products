@@ -25,12 +25,12 @@ export default class ProductSearch extends Component {
   state = {
     preloading: false,
     searching: false,
-    columns: `erp_id
-erp_description
-attributes.ansi_lumen
-outlets.bisnl.attributes.description_html
-outlets.bisnl.attributes.available_website
-outlets.bisnl.attributes.picture`,
+    columns: `erp_id,ERP ID
+erp_description,Description
+attributes.ansi_lumen,Lumen
+outlets.bisnl.attributes.description_html.nl_NL,BISNL Html
+outlets.bisnl.attributes.available_website,AW
+outlets.bisnl.attributes.picture,BISNL Picture`,
     query: '_exists_: attributes.ansi_lumen AND Hitachi',
     page: 1
   };
@@ -61,6 +61,19 @@ outlets.bisnl.attributes.picture`,
         this.setState({ searching: false });
       }
     })
+  }
+
+  getColumns() {
+    let columns = []
+
+    this.state.columns.split("\n").forEach(column => {
+      let [path, header] = column.split(',')
+      if (!isEmpty(path.trim())) {
+        columns.push({ path, header })
+      }
+    })
+
+    return columns;
   }
 
   handleColumnsChange = (e) => {
@@ -95,8 +108,8 @@ outlets.bisnl.attributes.picture`,
       return <h1>Nothing found</h1>
 
     } else {
-      let products = searchResults.results.map(id => Product.get(id))
-      let columns = compact(this.state.columns.split("\n"));
+      let products = searchResults.results.map(id => Product.get(id));
+      let columns = this.getColumns();
 
       return (
         <div>
