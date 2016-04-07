@@ -7,7 +7,7 @@ BaseModel.getModel = (modelName) => {
 
 BaseModel.addClassAction('loadAll', function() {
   return API.request({
-    endpoint: `${this.urlRoot}`,
+    endpoint: this.urlRoot,
     onSuccess: (response) => {
       response.body.forEach(modelJson => {
       	this.set({ modelJson })
