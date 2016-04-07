@@ -6,6 +6,7 @@ BaseModel.getModel = (modelName) => {
 }
 
 BaseModel.addClassAction('loadAll', function() {
+	console.log('loading all models from server');
   return API.request({
     endpoint: this.urlRoot,
     onSuccess: (response) => {
