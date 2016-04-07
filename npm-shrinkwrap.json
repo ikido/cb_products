@@ -2933,8 +2933,8 @@
       "resolved": "https://registry.npmjs.org/mobx/-/mobx-2.0.6.tgz"
     },
     "mobx-model": {
-      "version": "0.0.17",
-      "from": "mobx-model@0.0.17",
+      "version": "0.0.18",
+      "from": "mobx-model@0.0.18",
       "dependencies": {
         "amdefine": {
           "version": "1.0.0",
