@@ -10,8 +10,8 @@ import Pagination from 'react-bootstrap/lib/Pagination';
 
 import uniqueId from 'lodash/uniqueId';
 import isEmpty from 'lodash/isEmpty';
-
 import compact from 'lodash/compact';
+import debounce from 'lodash/debounce';
 
 import { Product, AttributeType } from 'models';
 import { SearchStore } from 'stores';
@@ -25,6 +25,7 @@ export default class ProductSearch extends Component {
   state = {
     preloading: false,
     searching: false,
+    searchError: false,
     columns: `erp_id,ERP ID
 erp_description,Description
 attributes.ansi_lumen,Lumen
@@ -50,7 +51,11 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
   performSearch(options = {}) {
     let { page = this.state.page } = options;
 
-    this.setState({ searching: true, page: page });
+    this.setState({
+      searching: true,
+      page: page,
+      searchError: false
+    });
 
     Product.search({
       query: this.state.query,
@@ -58,7 +63,9 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
       searchId: this.searchId
     }).then(response => {
       if (response.ok) {
-        this.setState({ searching: false });
+        this.setState({ searching: false, searchError: false });
+      } else {
+        this.setState({ searching: false, searchError: true });
       }
     })
   }
@@ -81,15 +88,17 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
   }
 
   handleQueryChange = (e) => {
-    this.setState({ query: e.target.value });
+    this.debouncedCallback ? this.debouncedCallback.cancel() : void(0);
+
+    this.debouncedCallback = debounce(() => {
+      this.performSearch({ page: 1 });
+    }, 750);
+
+    this.setState({ query: e.target.value }, this.debouncedCallback);
   }
 
   handlePageChange = (event, selectedEvent) => {
     this.setState({ page: selectedEvent.eventKey }, this.performSearch);
-  }
-
-  handleSearch = () => {
-    this.performSearch({ page: 1 })
   }
 
   renderPreloading() {
@@ -101,6 +110,11 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
   }
 
   renderSearchResults() {
+
+    if (this.state.searchError) {
+      return <h1>Error occured</h1>
+    }
+
     let searchResults = SearchStore.get(this.searchId)
 
     if (!searchResults || isEmpty(searchResults.results)) {
@@ -167,13 +181,6 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
               onChange={ this.handleQueryChange }
               rows={10}
             />
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <p>
-              <Button bsStyle="success" onClick={ this.handleSearch }>Search</Button>
-            </p>
           </Col>
         </Row>
         <Row>
