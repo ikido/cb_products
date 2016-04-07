@@ -124,9 +124,18 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
     } else {
       let products = searchResults.results.map(id => Product.get(id));
       let columns = this.getColumns();
+      let totalPages = Math.ceil(searchResults.total / Product.perPage)
 
       return (
         <div>
+          <Pagination
+            disabled
+            bsSize="medium"
+            items={ totalPages }
+            activePage={ this.state.page }
+            onSelect={ this.handlePageChange }
+          />
+
           <Table bordered responsive>
             <thead>
               <tr>
@@ -151,7 +160,7 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
           <Pagination
             disabled
             bsSize="medium"
-            items={ 10 /* Math.ceil(searchResults.total / Product.perPage) */ }
+            items={ totalPages }
             activePage={ this.state.page }
             onSelect={ this.handlePageChange }
           />
