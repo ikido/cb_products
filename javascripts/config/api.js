@@ -6,12 +6,9 @@ import auth from 'lib/auth';
 API.config({
 	urlRoot: 'https://products.test.cb.bis.nl/api',
 	requestHeaders() {
-		let headers = { Authorization: `Bearer ${auth.token}` };
-		console.log('setting headers for a request', headers);
-		
-		return headers;
+		return { Authorization: `Bearer ${auth.token}` };
 	},
   onRequestCompleted(response) {
-    console.log('api', response.body);
+    // console.log('api', response);
   }
 });
