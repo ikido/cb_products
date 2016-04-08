@@ -15,11 +15,11 @@ import isEmpty from 'lodash/isEmpty';
 import compact from 'lodash/compact';
 import debounce from 'lodash/debounce';
 
-import { Product, AttributeType } from 'models';
+import { Product, AttributeType, ColumnPreset } from 'models';
 import { SearchStore } from 'stores';
 import ColumnHeader from 'views/products/column_header';
 import ProductRow from 'views/products/product_row';
-import ColumnPreset from 'views/products/column_preset';
+import ColumnPresetEditor from 'views/products/column_preset_editor';
 
 
 
@@ -35,6 +35,7 @@ attributes.ansi_lumen,Lumen
 outlets.bisnl.attributes.description_html.nl_NL,BISNL Html
 outlets.bisnl.attributes.available_website,AW
 outlets.bisnl.attributes.picture,BISNL Picture`,
+    columnsCaption: '',
     query: '_exists_: attributes.ansi_lumen AND Hitachi',
     page: 1
   };
@@ -44,10 +45,11 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
   componentWillMount() {
     this.setState({ preloading: true });
     
-    AttributeType.loadAll().then(response => {
-      if (response.ok) {
-        this.setState({ preloading: false });
-      }
+    Promise.all([
+      AttributeType.loadAll(),
+      ColumnPreset.loadAll()
+    ]).then(responses => {
+      this.setState({ preloading: false });
     });
   }
 
@@ -88,6 +90,17 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
 
   handleColumnsChange = (newValue) => {
     this.setState({ columns: newValue });
+  }
+
+  handleColumnsCaptionChange = (newValue) => {
+    this.setState({ columnsCaption: newValue });
+  }
+
+  saveColumnsPreset = () => {
+    ColumnPreset.createProductPreset({
+      caption: this.state.columnsCaption,
+      columns: this.state.columns
+    })
   }
 
   handleQueryChange = (e) => {
@@ -177,9 +190,12 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
       <div>
         <Row>
           <Col md={6}>
-            <ColumnPreset
-              value={ this.state.columns }
-              onChange={ this.handleColumnsChange }
+            <ColumnPresetEditor
+              columns={ this.state.columns }
+              caption={ this.state.columnsCaption }
+              onColumnsChange={ this.handleColumnsChange }
+              onCaptionChange={ this.handleColumnsCaptionChange }
+              onSaveClick={ this.saveColumnsPreset }
             />
           </Col>
           <Col md={6}>

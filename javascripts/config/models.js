@@ -17,3 +17,16 @@ BaseModel.addClassAction('loadAll', function() {
     }
   });
 });
+
+BaseModel.addClassAction('create', function(attributes = {}) {
+  return API.request({
+    method: 'post',
+    data: attributes,
+    endpoint: this.urlRoot,
+    onSuccess: (response) => {
+      this.set({
+        modelJson: response.body, 
+      });
+    }
+  });
+});

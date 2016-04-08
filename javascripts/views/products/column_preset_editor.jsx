@@ -12,18 +12,22 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
 
-export default class ColumnPreset extends Component {
+export default class ColumnPresetEditor extends Component {
 	static propTypes = {
-		value: PropTypes.string.isRequired,
-		onChange: PropTypes.func
+		columns: PropTypes.string.isRequired,
+		caption: PropTypes.string.isRequired,
+		onCaptionChange: PropTypes.func.isRequired,
+		onColumnsChange: PropTypes.func.isRequired,
+		onSaveClick: PropTypes.func.isRequired
 	};
 
 	static defaultProps = {
-		value: ''
+		columns: '',
+		caption: ''
 	};
 
 	state = {
-		selectedAttributeTypeName: ''
+		selectedAttributeTypeId: null
 	};
 
 	getAttributeTypeOptions() {
@@ -42,11 +46,15 @@ export default class ColumnPreset extends Component {
 		let newValue = `\nattributes.${selectedAttributeType.name}, ${selectedAttributeType.caption}`;
 		this.props.onChange(this.props.value+newValue);
 
-		this.setState({ selectedAttributeTypeId: '' });
+		this.setState({ selectedAttributeTypeId: null });
 	}
 
-	handleInputChange = (e) => {
-		this.props.onChange(e.target.value);
+	handleColumnsChange = (e) => {
+		this.props.onColumnsChange(e.target.value);
+	}
+
+	handleCaptionChange = (e) => {
+		this.props.onCaptionChange(e.target.value);
 	}
 
 	render() {
@@ -69,11 +77,24 @@ export default class ColumnPreset extends Component {
 				<Row>
 					<Col md={12}>
 						<Input
-							type="textarea"
-							value={ this.props.value }
-							onChange={ this.handleInputChange }
+							type="text"
+							value={ this.props.caption }
+							onChange={ this.handleCaptionChange }
 							rows={10}
 						/>
+						<Input
+							type="textarea"
+							value={ this.props.columns }
+							onChange={ this.handleColumnsChange }
+							rows={10}
+						/>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={12}>
+						<Button bsStyle='success' onClick={ this.props.onSaveClick }>
+							Save preset
+						</Button>
 					</Col>
 				</Row>
 			</div>
