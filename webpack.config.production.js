@@ -14,7 +14,7 @@ module.exports = {
       path.resolve(__dirname, "javascripts"),
       path.resolve(__dirname, "stylesheets")
     ],
-    extensions: ['', '.js', '.jsx', 'css']
+    extensions: ['', '.js', '.jsx', '.css']
   },
   devtool: 'cheap-module-source-map',
   plugins: [
