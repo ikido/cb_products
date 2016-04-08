@@ -39,8 +39,8 @@ export default class ColumnPreset extends Component {
 
 	addAttributeType = () => {
 		let selectedAttributeType = AttributeType.get(this.state.selectedAttributeTypeId);
-		let newValue = this.props.value + `\nattributes.${selectedAttributeType.name}`;
-		this.props.onChange(newValue);
+		let newValue = `\nattributes.${selectedAttributeType.name}, ${selectedAttributeType.caption}`;
+		this.props.onChange(this.props.value+newValue);
 
 		this.setState({ selectedAttributeTypeId: '' });
 	}

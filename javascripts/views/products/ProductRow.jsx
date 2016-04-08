@@ -4,7 +4,7 @@ import React, { PropTypes, Component } from 'react';
 import { observer } from 'mobx-react';
 import toString from 'lodash/toString';
 import result from 'lodash/result';
-import ProductColumn from 'views/products/product_column';
+import ProductColumn from 'views/products/ProductColumn';
 
 @observer
 export default class ProductRow extends Component {

@@ -1,6 +1,6 @@
 'use strict';
 
-import SearchStore from 'stores/search';
+import SearchStore from 'stores/SearchStore';
 
 export {
 	SearchStore

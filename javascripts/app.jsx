@@ -1,9 +1,9 @@
 'use strict';
 
 import { render } from 'react-dom';
-import routes from 'lib/routes';
+import Routes from 'lib/Routes';
 import 'config';
 
 import 'react-select/dist/react-select.css';
 
-render(routes, document.getElementById('app-root'));
+render(Routes, document.getElementById('app-root'));

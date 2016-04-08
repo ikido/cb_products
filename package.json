@@ -2,7 +2,7 @@
   "name": "cb-products",
   "version": "0.0.1",
   "scripts": {
-    "start": "rm -R dist/css/bundle* && node server.js",
+    "start": "rm -f dist/css/bundle* && node server.js",
     "build": "BABEL_ENV=production ./node_modules/.bin/webpack --config webpack.config.production.js",
     "lint": "./node_modules/.bin/eslint ./javascripts"
   },

@@ -5,7 +5,7 @@ import { API } from 'mobx-model';
 
 const urlRoot = 'https://products.test.cb.bis.nl/api';
 
-let auth = {
+let Auth = {
 	
 	login(attributes = {}) {
 		let { username, password } = attributes;
@@ -33,13 +33,13 @@ let auth = {
 }
 
 // create getter for the token
-Object.defineProperty(auth, 'token', {
+Object.defineProperty(Auth, 'token', {
 	get: function() { return this._token; }
 });
 
 // read token from localstorage on load
-Object.assign(auth, {
+Object.assign(Auth, {
 	_token: localStorage.getItem('auth-token')
 });
 
-export default auth
+export default Auth

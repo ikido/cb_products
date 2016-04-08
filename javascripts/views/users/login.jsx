@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Page from 'views/layout/page';
-import auth from 'lib/auth';
+import Auth from 'lib/Auth';
 
 export default class ProductSearch extends Component {	
 
@@ -30,7 +30,7 @@ export default class ProductSearch extends Component {
 	handleLogin = (e) => {
 		e.preventDefault();
 
-		auth.login({
+		Auth.login({
 			username: this.state.username,
 			password: this.state.password
 		}).then((response) => {

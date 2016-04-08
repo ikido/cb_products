@@ -4,8 +4,8 @@
  */
 'use strict'
 
-import AttributeType from 'models/attribute_type';
-import Product from 'models/product';
+import AttributeType from 'models/AttributeType';
+import Product from 'models/Product';
 
 export {
 	AttributeType,
