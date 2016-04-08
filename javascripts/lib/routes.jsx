@@ -3,7 +3,7 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import Layout from 'views/layout/layout';
-import ProductSearch from 'views/products/product_search';
+import ProductSearch from 'views/products/search';
 import Login from 'views/users/login';
 import Notfound from 'views/errors/not_found';
 import Auth from 'lib/auth';
