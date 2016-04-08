@@ -11,11 +11,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: 'bundle.js',
-    publicPath: '/javascripts/'
+    publicPath: '/js/'
   },
   resolve: {
-    root: path.resolve(__dirname, "javascripts"),
-    extensions: ['', '.js', '.jsx']
+    root: [
+      path.resolve(__dirname, "javascripts"),
+      path.resolve(__dirname, "stylesheets")
+    ],
+    extensions: ['', '.js', '.jsx', '.css']
   },
   devtool: 'eval-source-map',
   plugins: [
@@ -37,6 +40,14 @@ module.exports = {
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader"
+      },
+      {
+        test: /\.(png|jpg|gif)?$/,
+        loader: "file-loader"
+      },
+      {
+        test: /\.css$/,
+        loader: "style!css"
       }
     ]
   }

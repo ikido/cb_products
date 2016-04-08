@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { PropTypes, Component } from 'react';
 import Page from 'views/layout/page';
 
@@ -17,6 +19,7 @@ import { Product, AttributeType } from 'models';
 import { SearchStore } from 'stores';
 import ColumnHeader from 'views/products/column_header';
 import ProductRow from 'views/products/product_row';
+import ColumnPreset from 'views/products/column_preset';
 
 
 
@@ -83,8 +86,8 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
     return columns;
   }
 
-  handleColumnsChange = (e) => {
-    this.setState({ columns: e.target.value });
+  handleColumnsChange = (newValue) => {
+    this.setState({ columns: newValue });
   }
 
   handleQueryChange = (e) => {
@@ -174,12 +177,9 @@ outlets.bisnl.attributes.picture,BISNL Picture`,
       <div>
         <Row>
           <Col md={6}>
-            <Input
-              type="textarea"
-              label="Columns"
+            <ColumnPreset
               value={ this.state.columns }
               onChange={ this.handleColumnsChange }
-              rows={10}
             />
           </Col>
           <Col md={6}>
