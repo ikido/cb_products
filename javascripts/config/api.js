@@ -1,7 +1,7 @@
 'use strict';
 
 import { API } from 'mobx-model';
-import Auth from 'lib/Auth';
+import Auth from 'lib/auth';
 
 API.config({
 	urlRoot: 'https://products.test.cb.bis.nl/api',

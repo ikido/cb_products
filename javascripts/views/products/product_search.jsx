@@ -17,9 +17,9 @@ import debounce from 'lodash/debounce';
 
 import { Product, AttributeType } from 'models';
 import { SearchStore } from 'stores';
-import ColumnHeader from 'views/products/ColumnHeader';
-import ProductRow from 'views/products/ProductRow';
-import ColumnPreset from 'views/products/ColumnPreset';
+import ColumnHeader from 'views/products/column_header';
+import ProductRow from 'views/products/product_row';
+import ColumnPreset from 'views/products/column_preset';
 
 
 

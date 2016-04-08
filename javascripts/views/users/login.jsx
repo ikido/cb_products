@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Page from 'views/layout/page';
-import Auth from 'lib/Auth';
+import Auth from 'lib/auth';
 
 export default class ProductSearch extends Component {	
 
