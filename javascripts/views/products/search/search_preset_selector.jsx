@@ -2,7 +2,7 @@
 
 import React, { PropTypes, Component } from 'react';
 import Select from 'react-select';
-import { ColumnPreset } from 'models';
+import { SearchPreset } from 'models';
 import { UIStore } from 'stores';
 import { observer } from 'mobx-react';
 
@@ -10,10 +10,10 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
 @observer
-export default class ColumnPresetSelector extends Component {
+export default class SearchPresetSelector extends Component {
 
   getOptions = () => {
-    let presets = ColumnPreset.all().slice().map(preset => {
+    let presets = SearchPreset.all().slice().map(preset => {
       return { value: preset.id, label: preset.caption }
     });
 
@@ -23,15 +23,15 @@ export default class ColumnPresetSelector extends Component {
 
   handleChange = (item) => {
     if (!!item.value) {
-      let preset = ColumnPreset.get(item.value)
+      let preset = SearchPreset.get(item.value)
 
-      UIStore.productSearch.selectedColumnPresetId = preset.id;
-      UIStore.productSearch.columnsCaption = preset.caption;
-      UIStore.productSearch.columns = preset.columns;
+      UIStore.productSearch.selectedSearchPresetId = preset.id;
+      UIStore.productSearch.queryCaption = preset.caption;
+      UIStore.productSearch.query = preset.query;
     } else {
-      UIStore.productSearch.selectedColumnPresetId = null;
-      UIStore.productSearch.columnsCaption = '';
-      UIStore.productSearch.columns = '';
+      UIStore.productSearch.selectedSearchPresetId = null;
+      UIStore.productSearch.queryCaption = '';
+      UIStore.productSearch.query = '';
     }    
   }
 
@@ -44,7 +44,7 @@ export default class ColumnPresetSelector extends Component {
           </label>
           <Select
             placeholder='New preset'
-            value={ UIStore.productSearch.selectedColumnPresetId }
+            value={ UIStore.productSearch.selectedSearchPresetId }
             options={ this.getOptions() }
             onChange={ this.handleChange }
           />

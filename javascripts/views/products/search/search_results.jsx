@@ -104,8 +104,8 @@ export default class ProductSearchResults extends Component {
           disabled
           bsSize="medium"
           items={ totalPages }
-          activePage={ this.props.page }
-          onSelect={ this.props.onPageChange }
+          activePage={ this.state.page }
+          onSelect={ this.handlePageChange }
         />
 
         <Table bordered responsive>
@@ -133,8 +133,8 @@ export default class ProductSearchResults extends Component {
           disabled
           bsSize="medium"
           items={ totalPages }
-          activePage={ this.props.page }
-          onSelect={ this.props.onPageChange }
+          activePage={ this.state.page }
+          onSelect={ this.handlePageChange }
         />
       </div>
     )

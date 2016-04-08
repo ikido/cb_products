@@ -10,7 +10,9 @@ class UIStore {
       	columnsCaption: '',
       	columns: '',
       	query: '',
-      	selectedColumnPresetId: null
+        queryCaption: '',
+      	selectedColumnPresetId: null,
+        selectedSearchPresetId: null
       }
     })
   }

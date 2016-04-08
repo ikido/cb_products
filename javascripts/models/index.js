@@ -7,9 +7,11 @@
 import AttributeType from 'models/attribute_type';
 import Product from 'models/product';
 import ColumnPreset from 'models/column_preset';
+import SearchPreset from 'models/search_preset';
 
 export {
 	AttributeType,
 	Product,
-	ColumnPreset
+	ColumnPreset,
+	SearchPreset
 }

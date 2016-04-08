@@ -40,14 +40,15 @@ export default class ColumnPresetEditor extends Component {
 	}
 
 	savePreset = () => {
-    if (isEmpty(UIStore.productSearch.columnsCaption) || isEmpty(UIStore.productSearch.columns)) {
+		let caption = UIStore.productSearch.columnsCaption;
+		let columns = UIStore.productSearch.columns;
+
+    if (isEmpty(columns) || isEmpty(caption)) {
       alert("Column preset must have caption and columns");
+      return
     }
 
-    ColumnPreset.createProductPreset({
-      caption: this.state.columnsCaption,
-      columns: this.state.columns
-    })
+    ColumnPreset.createProductPreset({ caption, columns })
   }
 
  	handleAttributeTypeSelectChange = (selectedItem) => {
@@ -90,7 +91,6 @@ export default class ColumnPresetEditor extends Component {
 							type="text"
 							value={ UIStore.productSearch.columnsCaption }
 							onChange={ this.handleCaptionChange }
-							rows={10}
 						/>
 						<Input
 							label="Columns"
@@ -104,7 +104,7 @@ export default class ColumnPresetEditor extends Component {
 				<Row>
 					<Col md={12}>
 						<Button bsStyle='success' onClick={ this.savePreset }>
-							Save preset
+							{ !!UIStore.productSearch.selectedColumnPresetId ? 'Save preset' : 'Create preset' }
 						</Button>
 					</Col>
 				</Row>
