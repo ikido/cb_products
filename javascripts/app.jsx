@@ -1,3 +1,5 @@
+'use strict';
+
 import { render } from 'react-dom';
 import routes from 'lib/routes';
 import 'config';

@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component, PropTypes } from 'react';
 import Page from 'views/layout/page';
 import auth from 'lib/auth';

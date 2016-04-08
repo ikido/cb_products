@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import Layout from 'views/layout/layout';

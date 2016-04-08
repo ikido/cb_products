@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { PropTypes, Component } from 'react';
 import { observer } from 'mobx-react';
 import toString from 'lodash/toString';

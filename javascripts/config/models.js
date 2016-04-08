@@ -1,3 +1,5 @@
+'use strict';
+
 import { API, BaseModel } from 'mobx-model';
 import models from 'models';
 

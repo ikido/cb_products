@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component } from 'react';
 import Header from 'views/layout/header';
 import Sidebar from 'views/layout/sidebar';

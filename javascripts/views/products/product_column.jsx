@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { PropTypes, Component } from 'react';
 import toString from 'lodash/toString';
 import result from 'lodash/result';
