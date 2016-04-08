@@ -25,13 +25,21 @@ export default class SearchPresetEditor extends Component {
 	savePreset = () => {
 		let caption = UIStore.productSearch.queryCaption;
 		let query = UIStore.productSearch.query;
+		let action
 
     if (isEmpty(query) || isEmpty(caption)) {
       alert("Search preset must have caption and query");
       return
     }
 
-    SearchPreset.createProductPreset({ caption, query })
+    if (!!UIStore.productSearch.selectedSearchPresetId) {
+    	let preset = SearchPreset.get(UIStore.productSearch.selectedSearchPresetId);
+    	action = preset.update
+    } else {
+    	action = SearchPreset.createProductPreset;
+    }
+
+    action({ caption, query });
   }
 	render() {
 		return (
@@ -56,7 +64,7 @@ export default class SearchPresetEditor extends Component {
 				<Row>
 					<Col md={12}>
 			      <Button bsStyle='success' onClick={ this.savePreset }>
-							{ !!UIStore.productSearch.selectedQueryPresetId ? 'Save preset' : 'Create preset' }
+							{ !!UIStore.productSearch.selectedSearchPresetId ? 'Save preset' : 'Create preset' }
 						</Button>
 					</Col>
 				</Row>

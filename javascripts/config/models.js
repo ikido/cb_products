@@ -24,9 +24,28 @@ BaseModel.addClassAction('create', function(attributes = {}) {
     data: attributes,
     endpoint: this.urlRoot,
     onSuccess: (response) => {
-      this.set({
-        modelJson: response.body, 
-      });
+      this.set({ modelJson: response.body });
     }
   });
 });
+
+BaseModel.addAction('update', function(attributes = {}) {
+  return API.request({
+    method: 'put',
+    data: Object.assign({}, this.toJSON(), attributes),
+    endpoint: `${this.urlRoot}/${this.id}`,
+    onSuccess: (response) => {
+      this.set({ modelJson: response.body });
+    }
+  });
+});
+
+BaseModel.prototype.toJSON = function() {
+  let json = {}
+
+  Object.keys(this.constructor.attributes).forEach(attrName => {
+    json[attrName] = this[attrName];
+  });
+
+  return json
+}
