@@ -22,7 +22,7 @@ export default class SearchPresetSelector extends Component {
   }
 
   handleChange = (item) => {
-    if (!!item.value) {
+    if (item && !!item.value) {
       let preset = SearchPreset.get(item.value)
 
       UIStore.productSearch.selectedSearchPresetId = preset.id;

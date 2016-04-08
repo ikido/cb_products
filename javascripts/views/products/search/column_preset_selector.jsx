@@ -22,7 +22,7 @@ export default class ColumnPresetSelector extends Component {
   }
 
   handleChange = (item) => {
-    if (!!item.value) {
+    if (item && !!item.value) {
       let preset = ColumnPreset.get(item.value)
 
       UIStore.productSearch.selectedColumnPresetId = preset.id;

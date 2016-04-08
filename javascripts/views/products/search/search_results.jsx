@@ -82,18 +82,25 @@ export default class ProductSearchResults extends Component {
     // subscribe to observable data
     let searchResults = SearchStore.get(this.searchId)
     let columns = this.getColumns();
+    let message = '';
 
-    if (!searchResults || isEmpty(searchResults.results)) {      
-      return <h1>Nothing found</h1>
+    if (isEmpty(UIStore.productSearch.query)) {
+      message = <h1>Empty query</h1>
     }
 
     if (this.state.searching) {
-      return <h1>Searching...</h1>
+      message = <h1>Searching...</h1>
     }
 
     if (this.state.searchError) {
-      return <h1>Error occured</h1>
+      message = <h1>Error occured</h1>
     }
+
+    if (!searchResults || isEmpty(searchResults.results)) {      
+      message = <h1>Nothing found</h1>
+    }
+
+    if (!isEmpty(message)) return message
 
     let products = searchResults.results.map(id => Product.get(id));
     let totalPages = Math.ceil(searchResults.total / Product.perPage)
