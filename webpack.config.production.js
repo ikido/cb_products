@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: './javascripts/app',
@@ -9,8 +10,11 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    root: path.resolve(__dirname, "javascripts"),
-    extensions: ['', '.js', '.jsx']
+    root: [
+      path.resolve(__dirname, "javascripts"),
+      path.resolve(__dirname, "stylesheets")
+    ],
+    extensions: ['', '.js', '.jsx', 'css']
   },
   devtool: 'cheap-module-source-map',
   plugins: [
@@ -29,7 +33,8 @@ module.exports = {
       }
     }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.AggressiveMergingPlugin()
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new ExtractTextPlugin("../css/bundle.min.css")
   ],
   module: {
     loaders: [
@@ -40,7 +45,11 @@ module.exports = {
         query: {
           plugins: ['transform-decorators-legacy']
         }      
-      }
+      },
+      {
+        test: /\.css?$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader?minimize")
+      },
     ]
   }
 };
