@@ -23,16 +23,13 @@ export default class ProductSearchResults extends Component {
     searchError: false
   }
 
-  searchId = uniqueId('product_search_');
+  searchId = uniqueId('product_search_');    
 
   componentWillMount() {
-    autorun(() => {
-      // this.debouncedCallback ? this.debouncedCallback.cancel() : void(0);
+    let debouncedSearch = debounce(this.performSearch, 750);
 
-      // this.debouncedCallback = debounce(() => {
-      //   this.performSearch({ page: 1 });
-      // }, 750);
-      this.performSearch({ page: 1 });
+    autorun(() => {
+      debouncedSearch({ query: UIStore.productSearch.query, page: 1 });
     });
   }
 
@@ -49,9 +46,11 @@ export default class ProductSearchResults extends Component {
     return columns;
   }
 
-  performSearch(options = {}) {
-    let { page = this.state.page } = options;
-    let query = UIStore.productSearch.query
+  performSearch = (options = {}) => {
+    let {
+      page = this.state.page,
+      query = UIStore.productSearch.query
+    } = options;    
 
     if (isEmpty(query)) return;
 
