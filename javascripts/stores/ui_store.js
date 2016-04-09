@@ -2,21 +2,19 @@
 
 import { extendObservable, asFlat } from 'mobx';
 
-class UIStore {
-
-  constructor() {
-    extendObservable(this, {
-      productSearch: {
-      	columnsCaption: '',
-      	columns: '',
-      	query: '',
-        queryCaption: '',
-      	selectedColumnPresetId: null,
-        selectedSearchPresetId: null
-      }
-    })
-  }
-
+let UIStore  = {
+  notificationSystem: null
 }
 
-export default new UIStore;
+extendObservable(UIStore, {
+  productSearch: {
+    columnsCaption: '',
+    columns: '',
+    query: '',
+    queryCaption: '',
+    selectedColumnPresetId: null,
+    selectedSearchPresetId: null
+  }
+})
+
+export default UIStore;

@@ -18,6 +18,4 @@ ColumnPreset.addClassAction('createProductPreset', function(attributes = {}) {
 	return this.create(attributes);
 });
 
-window.ColumnPreset = ColumnPreset
-
 export default ColumnPreset

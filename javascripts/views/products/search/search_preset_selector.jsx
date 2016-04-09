@@ -9,6 +9,8 @@ import { observer } from 'mobx-react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
+const NewPresetName = '[ Create new preset ]';
+
 @observer
 export default class SearchPresetSelector extends Component {
 
@@ -17,7 +19,7 @@ export default class SearchPresetSelector extends Component {
       return { value: preset.id, label: preset.caption }
     });
 
-    presets.unshift({ value: null, label: 'New preset'});
+    presets.unshift({ value: null, label: NewPresetName });
     return presets
   }
 
@@ -43,7 +45,7 @@ export default class SearchPresetSelector extends Component {
             <span>Select preset</span>
           </label>
           <Select
-            placeholder='New preset'
+            placeholder={ NewPresetName }
             value={ UIStore.productSearch.selectedSearchPresetId }
             options={ this.getOptions() }
             onChange={ this.handleChange }

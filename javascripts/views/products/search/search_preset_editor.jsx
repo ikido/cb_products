@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
 import SpinnerIcon from 'views/shared/spinner_icon';
+import Notification from 'lib/notification';
 
 @observer
 export default class SearchPresetEditor extends Component {
@@ -41,7 +42,7 @@ export default class SearchPresetEditor extends Component {
 		let action
 
     if (isEmpty(query) || isEmpty(caption)) {
-      alert("Search preset must have caption and query");
+      Notification.error('Search preset must have caption and query');
       return
     }
 
@@ -55,6 +56,12 @@ export default class SearchPresetEditor extends Component {
     this.setState({ loading: true });
     action({ caption, query }).then(response => {
     	this.setState({ loading: false });
+
+    	if (response.ok) {
+    		Notification.success('Search preset saved')
+    	} else {
+    		Notification.errors(response.body.caption)
+    	}
     });
   }
 

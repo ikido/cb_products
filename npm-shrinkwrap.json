@@ -4360,6 +4360,11 @@
       "from": "react-input-autosize@>=0.6.10 <0.7.0",
       "resolved": "https://registry.npmjs.org/react-input-autosize/-/react-input-autosize-0.6.10.tgz"
     },
+    "react-notification-system": {
+      "version": "0.2.6",
+      "from": "react-notification-system@latest",
+      "resolved": "https://registry.npmjs.org/react-notification-system/-/react-notification-system-0.2.6.tgz"
+    },
     "react-overlays": {
       "version": "0.6.2",
       "from": "react-overlays@>=0.6.0 <0.7.0",

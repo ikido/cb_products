@@ -17,6 +17,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
 import SpinnerIcon from 'views/shared/spinner_icon';
+import Notification from 'lib/notification';
 
 @observer
 export default class ColumnPresetEditor extends Component {
@@ -54,7 +55,7 @@ export default class ColumnPresetEditor extends Component {
 		let action
 
     if (isEmpty(columns) || isEmpty(caption)) {
-      alert("Column preset must have caption and columns");
+    	Notification.error('Column preset must have caption and columns')
       return
     }
 
@@ -67,7 +68,14 @@ export default class ColumnPresetEditor extends Component {
 
     this.setState({ loading: true });
     action({ caption, columns }).then(response => {
+
     	this.setState({ loading: false });
+
+    	if (response.ok) {
+		    Notification.success('Column preset saved');
+    	} else {
+    		Notification.errors(response.body.caption);
+    	}
     });
   }
 
