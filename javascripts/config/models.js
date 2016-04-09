@@ -35,6 +35,7 @@ BaseModel.addAction('update', function(attributes = {}) {
     data: Object.assign({}, this.toJSON(), attributes),
     endpoint: `${this.urlRoot}/${this.id}`,
     onSuccess: (response) => {
+      console.log(response.body)
       this.set({ modelJson: response.body });
     }
   });

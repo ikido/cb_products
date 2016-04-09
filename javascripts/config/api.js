@@ -9,6 +9,6 @@ API.config({
 		return { Authorization: `Bearer ${Auth.token}` };
 	},
   onRequestCompleted(response) {
-    console.log('api', response);
+    // console.log('api', response);
   }
 });

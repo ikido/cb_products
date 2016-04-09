@@ -28,6 +28,10 @@ export default class ProductSearchResults extends Component {
   componentWillMount() {
     let debouncedSearch = debounce(this.performSearch, 750);
 
+    /*
+     * whenever UIStore.productSearch.query changes callback passed to
+     * autorun will be called, performing search with given query and getting first page
+     */
     autorun(() => {
       debouncedSearch({ query: UIStore.productSearch.query, page: 1 });
     });

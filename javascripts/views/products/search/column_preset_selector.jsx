@@ -36,6 +36,7 @@ export default class ColumnPresetSelector extends Component {
   }
 
   render() {
+    console.log('rendered ColumnPresetSelector')
     return (
       <Row className='margin-bottom'>
         <Col md={12}>

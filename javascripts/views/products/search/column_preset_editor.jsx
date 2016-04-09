@@ -16,12 +16,21 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
+import SpinnerIcon from 'views/shared/spinner_icon';
+
 @observer
 export default class ColumnPresetEditor extends Component {
+	/*
+	 * subscribes via observer to changes of:
+	 *		UIStore.productSearch.columns
+	 *		UIStore.productSearch.columnsCaption
+	 *		UIStore.productSearch.selectedColumnPresetId
+	 */
 
 	state = {
+		loading: false,
 		selectedAttributeTypeId: null
-	};
+	}
 
 	getAttributeTypeOptions() {
 		return AttributeType.all().slice().map(attributeType => {
@@ -42,13 +51,24 @@ export default class ColumnPresetEditor extends Component {
 	savePreset = () => {
 		let caption = UIStore.productSearch.columnsCaption;
 		let columns = UIStore.productSearch.columns;
+		let action
 
     if (isEmpty(columns) || isEmpty(caption)) {
       alert("Column preset must have caption and columns");
       return
     }
 
-    ColumnPreset.createProductPreset({ caption, columns })
+    if (!!UIStore.productSearch.selectedColumnPresetId) {
+    	let preset = ColumnPreset.get(UIStore.productSearch.selectedColumnPresetId);
+    	action = preset.update
+    } else {
+    	action = ColumnPreset.createProductPreset;
+    }
+
+    this.setState({ loading: true });
+    action({ caption, columns }).then(response => {
+    	this.setState({ loading: false });
+    });
   }
 
  	handleAttributeTypeSelectChange = (selectedItem) => {
@@ -64,6 +84,16 @@ export default class ColumnPresetEditor extends Component {
     UIStore.productSearch.columns = e.target.value;
   }
 
+  renderButtonText() {
+  	let text = !!UIStore.productSearch.selectedColumnPresetId ? 'Save preset' : 'Create preset';
+
+  	if (this.state.loading) {
+  		return <span>{ text } &nbsp; <SpinnerIcon /></span>
+  	} else {
+  		return text
+  	}  	
+  }
+
 	render() {
 		return (
 			<Well>
@@ -76,10 +106,11 @@ export default class ColumnPresetEditor extends Component {
 							value={ this.state.selectedAttributeTypeId }
 							options={ this.getAttributeTypeOptions() }
 							onChange={ this.handleAttributeTypeSelectChange }
+							disabled={ this.state.loading }
 						/>
 					</Col>
 					<Col md={4}>
-						<Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }}>
+						<Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }} disabled={ this.state.loading }>
 							Add
 						</Button>
 					</Col>
@@ -91,20 +122,22 @@ export default class ColumnPresetEditor extends Component {
 							type="text"
 							value={ UIStore.productSearch.columnsCaption }
 							onChange={ this.handleCaptionChange }
+							disabled={ this.state.loading }
 						/>
 						<Input
 							label="Columns"
 							type="textarea"
 							value={ UIStore.productSearch.columns }
 							onChange={ this.handleColumnsChange }
+							disabled={ this.state.loading }
 							rows={10}
 						/>
 					</Col>
 				</Row>
 				<Row>
 					<Col md={12}>
-						<Button bsStyle='success' onClick={ this.savePreset }>
-							{ !!UIStore.productSearch.selectedColumnPresetId ? 'Save preset' : 'Create preset' }
+						<Button bsStyle='success' onClick={ this.savePreset } disabled={ this.state.loading }>
+							{ this.renderButtonText() }
 						</Button>
 					</Col>
 				</Row>

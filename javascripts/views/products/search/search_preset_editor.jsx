@@ -11,8 +11,21 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
+import SpinnerIcon from 'views/shared/spinner_icon';
+
 @observer
 export default class SearchPresetEditor extends Component {
+
+	/*
+	 * subscribes via observer to changes of:
+	 *		UIStore.productSearch.query
+	 *		UIStore.productSearch.queryCaption
+	 *		UIStore.productSearch.selectedSearchPresetId
+	 */
+
+	state = {
+		loading: false
+	}
 
 	handleQueryChange = (e) => {
 		UIStore.productSearch.query = e.target.value;
@@ -39,8 +52,22 @@ export default class SearchPresetEditor extends Component {
     	action = SearchPreset.createProductPreset;
     }
 
-    action({ caption, query });
+    this.setState({ loading: true });
+    action({ caption, query }).then(response => {
+    	this.setState({ loading: false });
+    });
   }
+
+  renderButtonText() {
+  	let text = !!UIStore.productSearch.selectedSearchPresetId ? 'Save preset' : 'Create preset';
+
+  	if (this.state.loading) {
+  		return <span>{ text } &nbsp; <SpinnerIcon /></span>
+  	} else {
+  		return text
+  	}  	
+  }
+
 	render() {
 		return (
 			<Well>
@@ -51,20 +78,22 @@ export default class SearchPresetEditor extends Component {
 							type="text"
 							value={ UIStore.productSearch.queryCaption }
 							onChange={ this.handleCaptionChange }
+							disabled={ this.state.loading }
 						/>
 			      <Input
 			        type="textarea"
 			        label="Search query"
 			        value={ UIStore.productSearch.query }
 			        onChange={ this.handleQueryChange }
+			        disabled={ this.state.loading }
 			        rows={10}
 			      />
 			    </Col>
 				</Row>
 				<Row>
 					<Col md={12}>
-			      <Button bsStyle='success' onClick={ this.savePreset }>
-							{ !!UIStore.productSearch.selectedSearchPresetId ? 'Save preset' : 'Create preset' }
+			      <Button bsStyle='success' onClick={ this.savePreset } disabled={ this.state.loading }>
+							{ this.renderButtonText() }
 						</Button>
 					</Col>
 				</Row>
