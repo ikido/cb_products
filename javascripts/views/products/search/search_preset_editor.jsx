@@ -25,7 +25,8 @@ export default class SearchPresetEditor extends Component {
 	 */
 
 	state = {
-		loading: false
+		saving: false,
+		deleting: false
 	}
 
 	handleQueryChange = (e) => {
@@ -36,7 +37,23 @@ export default class SearchPresetEditor extends Component {
 		UIStore.productSearch.queryCaption = e.target.value;
 	}
 
-	savePreset = () => {
+	handelDeletePreset = () => {
+		let preset = this.getPreset();
+		this.setState({ deleting: true });
+
+    preset.destroy().then(response => {
+    	this.setState({ deleting: false });
+
+    	if (response.ok) {
+    		Notification.success('Search preset deleted')
+    		UIStore.productSearch.selectedSearchPresetId = null;
+    	} else {
+    		Notification.errors(response.body.caption)
+    	}
+    });
+	}
+
+	handleSavePreset = () => {
 		let caption = UIStore.productSearch.queryCaption;
 		let query = UIStore.productSearch.query;
 		let action
@@ -47,32 +64,51 @@ export default class SearchPresetEditor extends Component {
     }
 
     if (!!UIStore.productSearch.selectedSearchPresetId) {
-    	let preset = SearchPreset.get(UIStore.productSearch.selectedSearchPresetId);
+    	let preset = this.getPreset();
     	action = preset.update
     } else {
     	action = SearchPreset.createProductPreset;
     }
 
-    this.setState({ loading: true });
+    this.setState({ saving: true });
     action({ caption, query }).then(response => {
-    	this.setState({ loading: false });
+    	this.setState({ saving: false });
 
     	if (response.ok) {
     		Notification.success('Search preset saved')
+    		UIStore.productSearch.selectedSearchPresetId = response.body.id;
     	} else {
     		Notification.errors(response.body.caption)
     	}
     });
   }
 
-  renderButtonText() {
+  uiIsDisabled() {
+  	return (this.state.saving || this.state.deleting);
+  }
+
+  getPreset() {
+  	return SearchPreset.get(UIStore.productSearch.selectedSearchPresetId);
+  }
+
+  renderSaveButtonText() {
   	let text = !!UIStore.productSearch.selectedSearchPresetId ? 'Save preset' : 'Create preset';
 
-  	if (this.state.loading) {
+  	if (this.state.saving) {
   		return <span>{ text } &nbsp; <SpinnerIcon /></span>
   	} else {
   		return text
   	}  	
+  }
+
+  renderDeleteButton() {
+  	let text = 'Delete';
+
+		return (
+			<Button bsStyle='danger' onClick={ this.handelDeletePreset } disabled={ this.uiIsDisabled() }>
+				{ this.state.deleting ? <span>{ text } &nbsp; <SpinnerIcon /></span> : text }
+			</Button>
+		)  	
   }
 
 	render() {
@@ -85,23 +121,25 @@ export default class SearchPresetEditor extends Component {
 							type="text"
 							value={ UIStore.productSearch.queryCaption }
 							onChange={ this.handleCaptionChange }
-							disabled={ this.state.loading }
+							disabled={ this.uiIsDisabled() }
 						/>
 			      <Input
 			        type="textarea"
 			        label="Search query"
 			        value={ UIStore.productSearch.query }
 			        onChange={ this.handleQueryChange }
-			        disabled={ this.state.loading }
+			        disabled={ this.uiIsDisabled() }
 			        rows={10}
 			      />
 			    </Col>
 				</Row>
 				<Row>
 					<Col md={12}>
-			      <Button bsStyle='success' onClick={ this.savePreset } disabled={ this.state.loading }>
-							{ this.renderButtonText() }
+			      <Button bsStyle='success' onClick={ this.handleSavePreset } disabled={ this.uiIsDisabled() }>
+							{ this.renderSaveButtonText() }
 						</Button>
+						&nbsp;
+						{ !!UIStore.productSearch.selectedSearchPresetId ? this.renderDeleteButton() : '' }
 					</Col>
 				</Row>
 			</Well>
