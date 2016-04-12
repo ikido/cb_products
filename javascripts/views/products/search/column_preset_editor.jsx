@@ -30,6 +30,7 @@ export default class ColumnPresetEditor extends Component {
 
 	state = {
 		loading: false,
+		deleting: false,
 		selectedAttributeTypeId: null
 	}
 
@@ -49,7 +50,7 @@ export default class ColumnPresetEditor extends Component {
 		this.setState({ selectedAttributeTypeId: null });
 	}
 
-	savePreset = () => {
+	handleSavePreset = () => {
 		let caption = UIStore.productSearch.columnsCaption;
 		let columns = UIStore.productSearch.columns;
 		let action
@@ -60,7 +61,7 @@ export default class ColumnPresetEditor extends Component {
     }
 
     if (!!UIStore.productSearch.selectedColumnPresetId) {
-    	let preset = ColumnPreset.get(UIStore.productSearch.selectedColumnPresetId);
+    	let preset = this.getPreset();
     	action = preset.update
     } else {
     	action = ColumnPreset.createProductPreset;
@@ -73,11 +74,28 @@ export default class ColumnPresetEditor extends Component {
 
     	if (response.ok) {
 		    Notification.success('Column preset saved');
+		    UIStore.productSearch.selectedColumnPresetId = response.body.id;
     	} else {
     		Notification.errors(response.body.caption);
     	}
     });
   }
+
+	handelDeletePreset = () => {
+		let preset = this.getPreset();
+		this.setState({ deleting: true });
+
+    preset.destroy().then(response => {
+    	this.setState({ deleting: false });
+
+    	if (response.ok) {
+    		Notification.success('Column preset deleted')
+    		UIStore.productSearch.selectedColumnPresetId = null;
+    	} else {
+    		Notification.errors(response.body.caption)
+    	}
+    });
+	}
 
  	handleAttributeTypeSelectChange = (selectedItem) => {
 		let newValue = isObject(selectedItem) ? selectedItem.value : '';
@@ -102,6 +120,24 @@ export default class ColumnPresetEditor extends Component {
   	}  	
   }
 
+  getPreset() {
+  	return ColumnPreset.get(UIStore.productSearch.selectedColumnPresetId);
+  }
+
+  uiIsDisabled() {
+  	return (this.state.saving || this.state.deleting);
+  }
+
+  renderDeleteButton() {
+  	let text = 'Delete';
+
+		return (
+			<Button bsStyle='danger' onClick={ this.handelDeletePreset } disabled={ this.uiIsDisabled() }>
+				{ this.state.deleting ? <span>{ text } &nbsp; <SpinnerIcon /></span> : text }
+			</Button>
+		)  	
+  }
+
 	render() {
 		return (
 			<Well>
@@ -114,11 +150,11 @@ export default class ColumnPresetEditor extends Component {
 							value={ this.state.selectedAttributeTypeId }
 							options={ this.getAttributeTypeOptions() }
 							onChange={ this.handleAttributeTypeSelectChange }
-							disabled={ this.state.loading }
+							disabled={ this.uiIsDisabled() }
 						/>
 					</Col>
 					<Col md={4}>
-						<Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }} disabled={ this.state.loading }>
+						<Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }} disabled={ this.uiIsDisabled() }>
 							Add
 						</Button>
 					</Col>
@@ -130,23 +166,25 @@ export default class ColumnPresetEditor extends Component {
 							type="text"
 							value={ UIStore.productSearch.columnsCaption }
 							onChange={ this.handleCaptionChange }
-							disabled={ this.state.loading }
+							disabled={ this.uiIsDisabled() }
 						/>
 						<Input
 							label="Columns"
 							type="textarea"
 							value={ UIStore.productSearch.columns }
 							onChange={ this.handleColumnsChange }
-							disabled={ this.state.loading }
+							disabled={ this.uiIsDisabled() }
 							rows={10}
 						/>
 					</Col>
 				</Row>
 				<Row>
 					<Col md={12}>
-						<Button bsStyle='success' onClick={ this.savePreset } disabled={ this.state.loading }>
+						<Button bsStyle='success' onClick={ this.handleSavePreset } disabled={ this.uiIsDisabled() }>
 							{ this.renderButtonText() }
 						</Button>
+						&nbsp;
+						{ !!UIStore.productSearch.selectedColumnPresetId ? this.renderDeleteButton() : '' }
 					</Col>
 				</Row>
 			</Well>
