@@ -47,6 +47,7 @@ export default class SearchPresetEditor extends Component {
     	if (response.ok) {
     		Notification.success('Search preset deleted')
     		UIStore.productSearch.selectedSearchPresetId = null;
+    		UIStore.productSearch.showSearchEditor = false;
     	} else {
     		Notification.errors(response.body.caption)
     	}
@@ -77,10 +78,15 @@ export default class SearchPresetEditor extends Component {
     	if (response.ok) {
     		Notification.success('Search preset saved')
     		UIStore.productSearch.selectedSearchPresetId = response.body.id;
+    		UIStore.productSearch.showSearchEditor = false;
     	} else {
     		Notification.errors(response.body.caption)
     	}
     });
+  }
+
+  handleCancel = () => {
+  	UIStore.productSearch.showSearchEditor = false
   }
 
   uiIsDisabled() {
@@ -140,6 +146,8 @@ export default class SearchPresetEditor extends Component {
 						</Button>
 						&nbsp;
 						{ !!UIStore.productSearch.selectedSearchPresetId ? this.renderDeleteButton() : '' }
+						&nbsp;
+						<Button onClick={ this.handleCancel } disabled={ this.uiIsDisabled() }>Cancel</Button>
 					</Col>
 				</Row>
 			</Well>

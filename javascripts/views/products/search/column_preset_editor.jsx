@@ -75,6 +75,7 @@ export default class ColumnPresetEditor extends Component {
     	if (response.ok) {
 		    Notification.success('Column preset saved');
 		    UIStore.productSearch.selectedColumnPresetId = response.body.id;
+		    UIStore.productSearch.showColumnsEditor = false;
     	} else {
     		Notification.errors(response.body.caption);
     	}
@@ -91,6 +92,7 @@ export default class ColumnPresetEditor extends Component {
     	if (response.ok) {
     		Notification.success('Column preset deleted')
     		UIStore.productSearch.selectedColumnPresetId = null;
+    		UIStore.productSearch.showColumnsEditor = false;
     	} else {
     		Notification.errors(response.body.caption)
     	}
