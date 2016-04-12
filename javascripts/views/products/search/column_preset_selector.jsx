@@ -9,8 +9,7 @@ import { autorun } from 'mobx';
 
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-
-const NewPresetName = '[ Create new preset ]';
+import Button from 'react-bootstrap/lib/Button';
 
 @observer
 export default class ColumnPresetSelector extends Component {
@@ -34,36 +33,51 @@ export default class ColumnPresetSelector extends Component {
   }
 
   getOptions = () => {
-    let presets = ColumnPreset.all().slice().map(preset => {
+    return  ColumnPreset.all().slice().map(preset => {
       return { value: preset.id, label: preset.caption }
     });
-
-    presets.unshift({ value: null, label: NewPresetName });
-    return presets
   }
 
   handleChange = (item) => {
     if (item && !!item.value) {
       UIStore.productSearch.selectedColumnPresetId = item.value;
+      UIStore.productSearch.showColumnsEditor = false;
     } else {
       UIStore.productSearch.selectedColumnPresetId = null;
     }   
+  }
+
+  handleEditPreset = () => {
+    UIStore.productSearch.showColumnsEditor = true
+  }
+
+  handleNewPreset = () => {
+    UIStore.productSearch.showColumnsEditor = true
+    UIStore.productSearch.columnsCaption = '';
+    UIStore.productSearch.columns = '';
+    UIStore.productSearch.selectedColumnPresetId = null;
   }
 
 
   render() {
     return (
       <Row className='margin-bottom'>
-        <Col md={12}>
+        <Col md={10}>
           <label className="control-label">
             <span>Select preset</span>
           </label>
           <Select
-            placeholder={ NewPresetName }
             value={ UIStore.productSearch.selectedColumnPresetId }
             options={ this.getOptions() }
             onChange={ this.handleChange }
           />
+          
+        </Col>
+        <Col md={2} className='preset-buttons'>
+          { UIStore.productSearch.selectedColumnPresetId ? <Button onClick={ this.handleEditPreset }>Edit</Button> : '' }
+          
+          &nbsp;
+          <Button onClick={ this.handleNewPreset }>New</Button>
         </Col>
       </Row>
     )    

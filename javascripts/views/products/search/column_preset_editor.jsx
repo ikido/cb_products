@@ -110,6 +110,10 @@ export default class ColumnPresetEditor extends Component {
     UIStore.productSearch.columns = e.target.value;
   }
 
+  handleCancel = () => {
+  	UIStore.productSearch.showColumnsEditor = false
+  }
+
   renderButtonText() {
   	let text = !!UIStore.productSearch.selectedColumnPresetId ? 'Save preset' : 'Create preset';
 
@@ -185,6 +189,8 @@ export default class ColumnPresetEditor extends Component {
 						</Button>
 						&nbsp;
 						{ !!UIStore.productSearch.selectedColumnPresetId ? this.renderDeleteButton() : '' }
+						&nbsp;
+						<Button onClick={ this.handleCancel } disabled={ this.uiIsDisabled() }>Cancel</Button>
 					</Col>
 				</Row>
 			</Well>

@@ -13,7 +13,9 @@ extendObservable(UIStore, {
     query: '',
     queryCaption: '',
     selectedColumnPresetId: null,
-    selectedSearchPresetId: null
+    selectedSearchPresetId: null,
+    showColumnsEditor: false,
+    showSearchEditor: false
   }
 })
 
