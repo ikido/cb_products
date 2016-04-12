@@ -44,4 +44,16 @@ export default class Product extends BaseModel {
     });
 	}
 
+	uploadFile(attributes = {}) {
+		return API.request({
+			method: 'post',
+			fileData: { attibuteName: 'file', file: attributes.file },
+      endpoint: `/file_attributes/product/${this.id}/${attributes.attributeTypeName}`,
+      onSuccess: (response) => {
+      	console.log(response);
+      	this.set({ modelJson: response.body.holder });
+      }
+    });
+	}
+
 }
