@@ -9,6 +9,7 @@ import { AttributeType } from 'models';
 import Dropzone from 'react-dropzone';
 import { observer } from 'mobx-react';
 import SpinnerIcon from 'views/shared/spinner_icon';
+import Notification from 'lib/notification';
 
 @observer
 export default class ProductColumn extends Component {
