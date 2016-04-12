@@ -2,6 +2,7 @@
 
 import { API, BaseModel } from 'mobx-model';
 import models from 'models';
+import { underscore } from 'inflection';
 
 BaseModel.getModel = (modelName) => {
   return models[modelName]
@@ -35,18 +36,29 @@ BaseModel.addAction('update', function(attributes = {}) {
     data: Object.assign({}, this.toJSON(), attributes),
     endpoint: `${this.urlRoot}/${this.id}`,
     onSuccess: (response) => {
-      console.log(response.body)
       this.set({ modelJson: response.body });
     }
   });
 });
 
+BaseModel.addAction('destroy', function() {
+  return API.request({
+    method: 'del',
+    endpoint: `${this.urlRoot}/${this.id}`,
+    onSuccess: (response) => {
+      this.onDestroy();
+    }
+  });
+});
+
 BaseModel.prototype.toJSON = function() {
-  let json = {}
+  let json = { id: this.id }
 
   Object.keys(this.constructor.attributes).forEach(attrName => {
-    json[attrName] = this[attrName];
+    json[underscore(attrName)] = this[attrName];
   });
+
+  // TODO: add relation ids here as well
 
   return json
 }

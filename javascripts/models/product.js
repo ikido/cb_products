@@ -2,7 +2,6 @@
 
 import { API, BaseModel } from 'mobx-model';
 import { SearchStore } from 'stores';
-import { underscore } from 'inflection';
 
 export default class Product extends BaseModel {
 
@@ -43,18 +42,6 @@ export default class Product extends BaseModel {
         });
       }
     });
-	}
-
-	toJson() {
-		let json = { id: this.id }
-
-		Object.keys(this.constructor.attributes).forEach(attributeName => {
-			json[underscore(attributeName)] = this[attributeName]
-		})
-
-		// TODO: add relation ids here as well
-
-		return json;
 	}
 
 }

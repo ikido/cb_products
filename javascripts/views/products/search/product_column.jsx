@@ -14,7 +14,7 @@ export default class ProductColumn extends Component {
   }
 
   render() {
-    let columnValue = result(this.props.product.toJson(), this.props.column.path);
+    let columnValue = result(this.props.product.toJSON(), this.props.column.path);
     return <td>{ toString(columnValue) }</td>
   }
 }
