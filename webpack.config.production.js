@@ -1,4 +1,5 @@
 /* eslint-disable no-var */
+require('dotenv').config();
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -34,7 +35,10 @@ module.exports = {
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new ExtractTextPlugin("../css/bundle.min.css")
+    new ExtractTextPlugin("../css/bundle.min.css"),
+    new webpack.EnvironmentPlugin([
+      'API_ENDPOINT'
+    ])
   ],
   module: {
     loaders: [

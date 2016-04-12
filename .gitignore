@@ -5,3 +5,4 @@ dist/js/bundle*
 dist/css/bundle*
 TODO
 .DS_Store
+.env

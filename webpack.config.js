@@ -1,4 +1,6 @@
 /* eslint-disable no-var */
+require('dotenv').config();
+
 var webpack = require('webpack');
 var path = require('path');
 
@@ -24,7 +26,10 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.EnvironmentPlugin([
+      'API_ENDPOINT'
+    ])
   ],
   module: {
     loaders: [

@@ -4,7 +4,7 @@ import { API } from 'mobx-model';
 import Auth from 'lib/auth';
 
 API.config({
-	urlRoot: 'https://products.test.cb.bis.nl/api',
+	urlRoot: process.env.API_ENDPOINT,
 	requestHeaders() {
 		return { Authorization: `Bearer ${Auth.token}` };
 	},
