@@ -62,7 +62,7 @@ export default class ProductSearch extends Component {
 						</header>
 						<fieldset>
 							<section>
-								<label className="label">E-mail</label>
+								<label className="label">Username</label>
 								<label className="input"> <i className="icon-append fa fa-user" />
 									<input type="email" value={ this.state.username } onChange={ this.handleUsernameChange } />
 									<b className="tooltip tooltip-top-right"><i className="fa fa-user txt-color-teal" /> Please enter username</b></label>
