@@ -10,6 +10,12 @@ class SearchPreset extends BaseModel {
 		model: ''
 	}
 
+	static getSelectOptions = function() {
+    return this.all().slice().map(preset => {
+      return { value: preset.id, label: preset.caption }
+    });
+  }
+
 }
 
 // create preset for a 'product' model
