@@ -14,21 +14,7 @@ import PresetSelector from 'views/products/search/preset_selector';
 import SearchPresetEditor from 'views/products/search/search_preset_editor';
 import SearchResults from 'views/products/search/search_results';
 
-import {
-  setSelectedSearchPreset,
-  showSearchPresetEditor,
-  showNewSearchPresetEditor,
-  setSelectedColumnPreset,
-  showColumnPresetEditor,
-  showNewColumnPresetEditor
-} from 'actions/products';
-
-import {
-  selectedSearchPresetId,
-  selectedColumnPresetId,
-  searchPresetEditorShown,
-  columnPresetEditorShown
-} from 'reducers/products';
+import UIStore from 'stores/ui_store';
 
 import './styles.css'
 
@@ -52,29 +38,30 @@ export default class ProductSearch extends Component {
   }
 
   renderSearch() {
-    console.log(selectedColumnPresetId)
+    let searchUI = UIStore.productSearch;
+
     return (
       <div>
         <Row>
           <Col md={6}>
             <PresetSelector
-              onSelectedPresetChange={ setSelectedColumnPreset }
+              onSelectedPresetChange={ searchUI.setSelectedColumnPreset }
               options={ ColumnPreset.getSelectOptions() }
-              onShowEditorClick={ showColumnPresetEditor }
-              onNewPresetClick={ showNewColumnPresetEditor }
-              selectedPresetId={ selectedColumnPresetId }
+              onShowEditorClick={ searchUI.showColumnPresetEditor }
+              onNewPresetClick={ searchUI.showNewColumnPresetEditor }
+              selectedPresetId={ searchUI.selectedColumnPresetId }
             />
-            { columnPresetEditorShown ? <ColumnPresetEditor /> : '' }
+            { searchUI.columnPresetEditorShown ? <ColumnPresetEditor /> : '' }
           </Col>
           <Col md={6}>
             <PresetSelector
-              onSelectedPresetChange={ setSelectedSearchPreset }
+              onSelectedPresetChange={ searchUI.setSelectedSearchPreset }
               options={ SearchPreset.getSelectOptions() }
-              onShowEditorClick={ showSearchPresetEditor }
-              onNewPresetClick={ showNewSearchPresetEditor }
-              selectedPresetId={ selectedSearchPresetId }
+              onShowEditorClick={ searchUI.showSearchPresetEditor }
+              onNewPresetClick={ searchUI.showNewSearchPresetEditor }
+              selectedPresetId={ searchUI.selectedSearchPresetId }
             />
-            { searchPresetEditorShown ? <SearchPresetEditor /> : '' }
+            { searchUI.searchPresetEditorShown ? <SearchPresetEditor /> : '' }
           </Col>
         </Row>
         <Row>
