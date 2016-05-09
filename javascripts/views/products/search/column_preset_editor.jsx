@@ -17,7 +17,6 @@ import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
 import SpinnerIcon from 'views/shared/spinner_icon';
-import Notification from 'lib/notification';
 
 @observer
 export default class ColumnPresetEditor extends Component {
@@ -56,7 +55,7 @@ export default class ColumnPresetEditor extends Component {
 		let action
 
     if (isEmpty(columns) || isEmpty(caption)) {
-    	Notification.error('Column preset must have caption and columns')
+    	UIStore.notification.error('Column preset must have caption and columns')
       return
     }
 
@@ -73,11 +72,11 @@ export default class ColumnPresetEditor extends Component {
     	this.setState({ loading: false });
 
     	if (response.ok) {
-		    Notification.success('Column preset saved');
+		    UIStore.notification.success('Column preset saved');
 		    UIStore.productSearch.selectedColumnPresetId = response.body.id;
 		    UIStore.productSearch.showColumnsEditor = false;
     	} else {
-    		Notification.errors(response.body.caption);
+    		UIStore.notification.errors(response.body.caption);
     	}
     });
   }
@@ -90,11 +89,11 @@ export default class ColumnPresetEditor extends Component {
     	this.setState({ deleting: false });
 
     	if (response.ok) {
-    		Notification.success('Column preset deleted')
+    		UIStore.notification.success('Column preset deleted')
     		UIStore.productSearch.selectedColumnPresetId = null;
     		UIStore.productSearch.showColumnsEditor = false;
     	} else {
-    		Notification.errors(response.body.caption)
+    		UIStore.notification.errors(response.body.caption)
     	}
     });
 	}

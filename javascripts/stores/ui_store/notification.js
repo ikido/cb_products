@@ -1,18 +1,22 @@
 'use strict';
 
-import { UIStore } from 'stores';		        		
+import bindAll from 'lodash/bindAll';
 
-export default {
+let notification = {
+
+	setNotificationSystem(ref) {
+		this.notificationSystem = ref;
+	},
 
 	success(message = '') {
-		UIStore.notificationSystem.addNotification({
+		this.notificationSystem.addNotification({
       message,
       level: 'success'
     });
 	},
 
 	error(message = '') {
-		UIStore.notificationSystem.addNotification({
+		this.notificationSystem.addNotification({
       title: 'An error occured',
       message,
       level: 'error'
@@ -31,7 +35,7 @@ export default {
 
     let message = '<ul>'+errors+'</ul>';
 
-		UIStore.notificationSystem.addNotification({
+		this.notificationSystem.addNotification({
       title: 'Following errors occured',
       message,
       level: 'error'
@@ -39,3 +43,10 @@ export default {
 	}
 
 }
+
+export default bindAll(notification, [
+	'setNotificationSystem',
+	'success',
+	'errors',
+	'error'
+])

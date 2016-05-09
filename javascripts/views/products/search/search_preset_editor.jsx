@@ -12,7 +12,6 @@ import Col from 'react-bootstrap/lib/Col';
 import Well from 'react-bootstrap/lib/Well';
 
 import SpinnerIcon from 'views/shared/spinner_icon';
-import Notification from 'lib/notification';
 
 @observer
 export default class SearchPresetEditor extends Component {
@@ -45,11 +44,11 @@ export default class SearchPresetEditor extends Component {
     	this.setState({ deleting: false });
 
     	if (response.ok) {
-    		Notification.success('Search preset deleted')
+    		UIStore.notification.success('Search preset deleted')
     		UIStore.productSearch.selectedSearchPresetId = null;
     		UIStore.productSearch.showSearchEditor = false;
     	} else {
-    		Notification.errors(response.body.caption)
+    		UIStore.notification.errors(response.body.caption)
     	}
     });
 	}
@@ -60,7 +59,7 @@ export default class SearchPresetEditor extends Component {
 		let action
 
     if (isEmpty(query) || isEmpty(caption)) {
-      Notification.error('Search preset must have caption and query');
+      UIStore.notification.error('Search preset must have caption and query');
       return
     }
 
@@ -76,11 +75,11 @@ export default class SearchPresetEditor extends Component {
     	this.setState({ saving: false });
 
     	if (response.ok) {
-    		Notification.success('Search preset saved')
+    		UIStore.notification.success('Search preset saved')
     		UIStore.productSearch.selectedSearchPresetId = response.body.id;
     		UIStore.productSearch.showSearchEditor = false;
     	} else {
-    		Notification.errors(response.body.caption)
+    		UIStore.notification.errors(response.body.caption)
     	}
     });
   }

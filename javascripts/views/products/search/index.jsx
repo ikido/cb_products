@@ -14,7 +14,7 @@ import PresetSelector from 'views/products/search/preset_selector';
 import SearchPresetEditor from 'views/products/search/search_preset_editor';
 import SearchResults from 'views/products/search/search_results';
 
-import UIStore from 'stores/ui_store';
+import { UIStore } from 'stores';
 
 import './styles.css'
 

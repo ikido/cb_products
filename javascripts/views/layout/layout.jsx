@@ -10,7 +10,7 @@ import { UIStore } from 'stores';
 export default class Layout extends Component {
 
   componentDidMount() {
-    UIStore.notificationSystem = this.refs.notificationSystem;
+    UIStore.notification.setNotificationSystem(this.refs.notificationSystem);
   }
 
   render() {

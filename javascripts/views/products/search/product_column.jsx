@@ -9,7 +9,7 @@ import { AttributeType } from 'models';
 import Dropzone from 'react-dropzone';
 import { observer } from 'mobx-react';
 import SpinnerIcon from 'views/shared/spinner_icon';
-import Notification from 'lib/notification';
+import { UIStore } from 'stores';
 
 @observer
 export default class ProductColumn extends Component {
@@ -32,9 +32,9 @@ export default class ProductColumn extends Component {
       this.props.product.uploadFile({ file: files[0], attributeTypeName }).then(response => {
         this.setState({ loading: false })
         if (response.ok) {
-          Notification.success('File uploaded')
+          UIStore.notification.success('File uploaded')
         } else {
-          Notification.error(response.body.details)
+          UIStore.notification.error(response.body.details)
         }
       })
     }      
