@@ -5,13 +5,13 @@ import React, { PropTypes, Component } from 'react';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import { AttributeType, ColumnPreset, SearchPreset } from 'models';
+import { AttributeType, ColumnsPreset, SearchPreset } from 'models';
 import { observer } from 'mobx-react';
 
 import Page from 'views/layout/page';
-import ColumnPresetEditor from 'views/products/search/column_preset_editor';
 import PresetSelector from 'views/products/search/preset_selector';
-import SearchPresetEditor from 'views/products/search/search_preset_editor';
+import PresetEditor from 'views/products/search/preset_editor';
+import AttributeTypeSelector from 'views/products/search/attribute_type_selector';
 import SearchResults from 'views/products/search/search_results';
 
 import { UIStore } from 'stores';
@@ -30,11 +30,47 @@ export default class ProductSearch extends Component {
     
     Promise.all([
       AttributeType.loadAll(),
-      ColumnPreset.loadAll(),
+      ColumnsPreset.loadAll(),
       SearchPreset.loadAll()
     ]).then(responses => {
       this.setState({ preloading: false });
     });
+  }
+
+  renderSearchPresetEditor() {   
+    let searchUI = UIStore.productSearch;
+
+    return (
+      <PresetEditor
+        caption={ searchUI.queryCaption }
+        content={ searchUI.query }
+        onCaptionChange={ searchUI.setQueryCaption }
+        onContentChange={ searchUI.setQuery }
+        presetClass={ SearchPreset }
+        selectedPresetId={ searchUI.selectedSearchPresetId }
+        setSelectedPresetId={ searchUI.setSelectedSearchPreset }
+        onCancelClick={ searchUI.hideSearchPresetEditor }
+      />
+    )  
+  }
+
+  renderColumnsPresetEditor() {   
+    let searchUI = UIStore.productSearch; 
+
+    return (
+      <PresetEditor
+        caption={ searchUI.columnsCaption }
+        content={ searchUI.columns }
+        onCaptionChange={ searchUI.setColumnsCaption }
+        onContentChange={ searchUI.setColumns }
+        presetClass={ ColumnsPreset }
+        selectedPresetId={ searchUI.selectedColumnsPresetId }
+        setSelectedPresetId={ searchUI.setSelectedColumnsPreset }
+        onCancelClick={ searchUI.hideColumnsPresetEditor }
+      >
+        <AttributeTypeSelector />
+      </PresetEditor>
+    )  
   }
 
   renderSearch() {
@@ -45,13 +81,13 @@ export default class ProductSearch extends Component {
         <Row>
           <Col md={6}>
             <PresetSelector
-              onSelectedPresetChange={ searchUI.setSelectedColumnPreset }
-              options={ ColumnPreset.getSelectOptions() }
-              onShowEditorClick={ searchUI.showColumnPresetEditor }
-              onNewPresetClick={ searchUI.showNewColumnPresetEditor }
-              selectedPresetId={ searchUI.selectedColumnPresetId }
+              onSelectedPresetChange={ searchUI.setSelectedColumnsPreset }
+              options={ ColumnsPreset.getSelectOptions() }
+              onShowEditorClick={ searchUI.showColumnsPresetEditor }
+              onNewPresetClick={ searchUI.showNewColumnsPresetEditor }
+              selectedPresetId={ searchUI.selectedColumnsPresetId }
             />
-            { searchUI.columnPresetEditorShown ? <ColumnPresetEditor /> : '' }
+            { searchUI.showColumnsEditor ? this.renderColumnsPresetEditor() : '' }
           </Col>
           <Col md={6}>
             <PresetSelector
@@ -61,7 +97,7 @@ export default class ProductSearch extends Component {
               onNewPresetClick={ searchUI.showNewSearchPresetEditor }
               selectedPresetId={ searchUI.selectedSearchPresetId }
             />
-            { searchUI.searchPresetEditorShown ? <SearchPresetEditor /> : '' }
+            { searchUI.showSearchEditor ? this.renderSearchPresetEditor() : '' }
           </Col>
         </Row>
         <Row>

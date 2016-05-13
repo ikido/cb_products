@@ -31,7 +31,7 @@ export default class PresetSelector extends Component {
           />
         </Col>
         <Col md={3} className='preset-buttons'>
-          { this.props.selectedPresetId ? <Button onClick={ this.props.onShowEditor }>Edit</Button> : '' }
+          { this.props.selectedPresetId ? <Button onClick={ this.props.onShowEditorClick }>Edit</Button> : '' }
           
           &nbsp;
           <Button onClick={ this.props.onNewPresetClick }>New</Button>

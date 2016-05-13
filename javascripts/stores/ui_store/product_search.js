@@ -1,11 +1,12 @@
 import { extendObservable, transaction } from 'mobx';
-import { ColumnPreset, SearchPreset } from 'models';
+import { ColumnsPreset, SearchPreset } from 'models';
 import bindAll from 'lodash/bindAll';
+import isNumber from 'lodash/isNumber';
 
 let productSearch = {}
 
 /*
- * Theese properties are read-only,
+ * These properties are read-only,
  * we don't set them directly and use actions
  * below instead. 
  *
@@ -13,7 +14,7 @@ let productSearch = {}
  * is simple and flat and is defined here for reference
  */
 extendObservable(productSearch, {
-	selectedColumnPresetId: null,
+	selectedColumnsPresetId: null,
   selectedSearchPresetId: null,
   showColumnsEditor: false,
   showSearchEditor: false,
@@ -29,7 +30,9 @@ Object.assign(productSearch, {
 	 * when preset was selected or deselected
 	 */
 	setSelectedSearchPreset(item = null) {
-	  let preset, presetId = (item || {}).value;
+	  let preset, presetId;
+		
+		presetId = isNumber(item) ? item : (item || {}).value;
 	  
 	  transaction(() => {
 		  this.selectedSearchPresetId = presetId;
@@ -38,12 +41,13 @@ Object.assign(productSearch, {
 
 		  if (!!preset) {            
 		    this.queryCaption = preset.caption;
-		    this.query = preset.query;
-		    this.showSearchEditor = false;  
+		    this.query = preset.query;		    
 		  } else {
 		    this.queryCaption = '';
 		    this.query = '';
 		  }
+
+		  this.showSearchEditor = false;
 		});
 	},
 
@@ -51,22 +55,25 @@ Object.assign(productSearch, {
 	 * Update columns caption and columns itself
 	 * when preset was selected or deselected
 	 */
-	setSelectedColumnPreset(item = null) {
-	  let preset, presetId = (item || {}).value;
+	setSelectedColumnsPreset(item = null) {
+	  let preset, presetId;
+
+	  presetId = isNumber(item) ? item : (item || {}).value;
 
 	  transaction(() => {
-	    this.selectedColumnPresetId = presetId;
+	    this.selectedColumnsPresetId = presetId;
 
-	    if (!!presetId) preset = ColumnPreset.get(presetId);
+	    if (!!presetId) preset = ColumnsPreset.get(presetId);
 
 	    if (!!preset) {            
 	      this.columnsCaption = preset.caption;
-	      this.columns = preset.columns;
-	      this.showColumnsEditor = false;  
+	      this.columns = preset.columns;	      
 	    } else {
 	      this.columnsCaption = '';
 	      this.columns = '';
 	    }
+
+	    this.showColumnsEditor = false;
 
 	  });
 	},
@@ -77,9 +84,9 @@ Object.assign(productSearch, {
 	  this.showSearchPresetEditor();
 	},
 
-	showNewColumnPresetEditor() {
-	  this.setSelectedColumnPreset(null)
-	  this.showColumnPresetEditor();
+	showNewColumnsPresetEditor() {
+	  this.setSelectedColumnsPreset(null)
+	  this.showColumnsPresetEditor();
 	},
 
 	// show the editor
@@ -87,17 +94,47 @@ Object.assign(productSearch, {
 	  this.showSearchEditor = true;
 	},
 
-	showColumnPresetEditor() {
+	showColumnsPresetEditor() {
 	  this.showColumnsEditor = true;
-	}
+	},
+
+	setQueryCaption(newValue) {
+		this.queryCaption = newValue;
+	},
+
+	setQuery(newValue) {
+		this.query = newValue;
+	},
+
+	setColumnsCaption(newValue) {
+		this.columnsCaption = newValue;
+	},
+
+	setColumns(newValue) {
+		this.columns = newValue;
+	},
+
+	hideSearchPresetEditor() {
+		this.showSearchEditor = false;
+	},
+
+	hideColumnsPresetEditor() {
+		this.showColumnsEditor = false;
+	},
 
 });
 
 export default bindAll(productSearch, [
 	'setSelectedSearchPreset',
-	'setSelectedColumnPreset',
+	'setSelectedColumnsPreset',
 	'showNewSearchPresetEditor',
-	'showNewColumnPresetEditor',
+	'showNewColumnsPresetEditor',
 	'showSearchPresetEditor',
-	'showColumnPresetEditor'
+	'showColumnsPresetEditor',
+	'setQuery',
+	'setQueryCaption',
+	'setColumns',
+	'setColumnsCaption',
+	'hideSearchPresetEditor',
+	'hideColumnsPresetEditor'
 ]);
