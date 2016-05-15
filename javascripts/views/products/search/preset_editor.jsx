@@ -123,9 +123,13 @@ export default class PresetEditor extends Component {
   }
 
 	render() {
-		let children = React.cloneElement(this.props.children, {
-			disabled: this.uiIsDisabled()
-		});
+		let children;
+
+		if (this.props.children) {
+			children = React.cloneElement(this.props.children, {
+				disabled: this.uiIsDisabled()
+			});
+		}
 		
 		return (
 			<Well>				

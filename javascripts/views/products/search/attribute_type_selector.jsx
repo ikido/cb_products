@@ -43,6 +43,8 @@ export default class AttributeTypeSelector extends Component {
 		let caption = selectedAttributeType.caption.replace(/,/g, '');
 
 		let newValue = `\nattributes.${selectedAttributeType.name}, ${caption}`;
+		
+		// here we actually add selected attribute to preset's columns
 		searchUI.setColumns(searchUI.columns+newValue);
 
 		this.setState({ selectedAttributeTypeId: null });

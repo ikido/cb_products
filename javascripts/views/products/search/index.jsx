@@ -25,6 +25,7 @@ export default class ProductSearch extends Component {
     preloading: false
   };
 
+  // preload attribute types and existing presets
   componentWillMount() {
     this.setState({ preloading: true });
     
