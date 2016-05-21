@@ -53,7 +53,10 @@ export default class ProductSearchResults extends Component {
         <Row>
           <Col md={10}>
             <Pagination
-              disabled
+              first
+              last
+              boundaryLinks
+              maxButtons={ 10 }
               bsSize="medium"
               items={ totalPages }
               activePage={ ui.page }
@@ -93,7 +96,10 @@ export default class ProductSearchResults extends Component {
         <Row>
           <Col md={10}>
             <Pagination
-              disabled
+              first
+              last
+              boundaryLinks
+              maxButtons={ 10 }
               bsSize="medium"
               items={ totalPages }
               activePage={ ui.page }
@@ -110,14 +116,17 @@ export default class ProductSearchResults extends Component {
     
     let message = '';
 
-    if (isEmpty(ui.query)) message = 'Empty query';
+    if (ui.searchError) return <h1>An error occured</h1>;
 
-    if (ui.searchError) message = 'An error occured';
+    if (!!searchResults) {
 
-    if (!message && (!searchResults || isEmpty(searchResults.results))) {      
-      message = 'Nothing found';
-    }
-
-    return !isEmpty(message) ? <h1>{ message }</h1> : this.renderSearchResults(searchResults);
+      if (isEmpty(searchResults.results)) {      
+        return <h1>Nothing found</h1>
+      } else {
+        return this.renderSearchResults(searchResults);
+      }
+    } else {
+      return null;
+    }    
   }
 }

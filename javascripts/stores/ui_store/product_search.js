@@ -254,8 +254,6 @@ Object.assign(productSearch, {
   performSearch(options = {}) {
     let { query, page } = options;
 
-    if (isEmpty(query)) return;
-
     // console.log('performSearch', query)
 
     transaction(() => {
