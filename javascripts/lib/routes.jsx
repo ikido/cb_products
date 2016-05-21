@@ -9,14 +9,17 @@ import Notfound from 'views/errors/not_found';
 import Auth from 'lib/auth';
 
 const requireAuth = (nextState, replace) => {
-	// console.log(nextState.location.pathname)
-	const pathName = nextState.location.pathname === '/' ? '/product-search' : nextState.location.pathname
-
   if (!Auth.loggedIn()) {
     replace({
       pathname: '/login',
-      state: { nextPathname: pathName }
+      state: { nextPathname: nextState.location.pathname }
     });
+  }
+
+  if (nextState.location.pathname !== '/product-search') {
+  	replace({
+  		pathname: '/product-search'
+  	})
   }
 }
 

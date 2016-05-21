@@ -4,6 +4,10 @@ import jwtDecode from 'jwt-decode';
 import { API } from 'mobx-model';
 
 let Auth = {
+
+	logout() {
+		localStorage.removeItem('auth-token');		
+	},
 	
 	login(attributes = {}) {
 		let { username, password } = attributes;
