@@ -17,7 +17,9 @@ import SearchParams from 'views/products/search/search_params';
 
 import { UIStore } from 'stores';
 
-import './styles.css'
+import './styles.css';
+
+const ui = UIStore.productSearch;
 
 @observer
 export default class ProductSearch extends Component {
@@ -40,35 +42,31 @@ export default class ProductSearch extends Component {
   }
 
   renderSearchPresetEditor() {   
-    let searchUI = UIStore.productSearch;
-
     return (
       <PresetEditor
-        caption={ searchUI.queryCaption }
-        content={ searchUI.query }
-        onCaptionChange={ searchUI.setQueryCaption }
-        onContentChange={ searchUI.setQuery }
+        caption={ ui.queryCaption }
+        content={ ui.query }
+        onCaptionChange={ ui.setQueryCaption }
+        onContentChange={ ui.setQuery }
         presetClass={ SearchPreset }
-        selectedPresetId={ searchUI.selectedSearchPresetId }
-        setSelectedPresetId={ searchUI.setSelectedSearchPreset }
-        onCancelClick={ searchUI.hideSearchPresetEditor }
+        selectedPresetId={ ui.selectedSearchPresetId }
+        setSelectedPresetId={ ui.setSelectedSearchPreset }
+        onCancelClick={ ui.hideSearchPresetEditor }
       />
     )  
   }
 
   renderColumnsPresetEditor() {   
-    let searchUI = UIStore.productSearch; 
-
     return (
       <PresetEditor
-        caption={ searchUI.columnsCaption }
-        content={ searchUI.columns }
-        onCaptionChange={ searchUI.setColumnsCaption }
-        onContentChange={ searchUI.setColumns }
+        caption={ ui.columnsCaption }
+        content={ ui.columns }
+        onCaptionChange={ ui.setColumnsCaption }
+        onContentChange={ ui.setColumns }
         presetClass={ ColumnsPreset }
-        selectedPresetId={ searchUI.selectedColumnsPresetId }
-        setSelectedPresetId={ searchUI.setSelectedColumnsPreset }
-        onCancelClick={ searchUI.hideColumnsPresetEditor }
+        selectedPresetId={ ui.selectedColumnsPresetId }
+        setSelectedPresetId={ ui.setSelectedColumnsPreset }
+        onCancelClick={ ui.hideColumnsPresetEditor }
       >
         <AttributeTypeSelector />
       </PresetEditor>
@@ -76,30 +74,28 @@ export default class ProductSearch extends Component {
   }
 
   renderSearch() {
-    let searchUI = UIStore.productSearch;
-
-    return (
+    return (      
       <div>
         <Row>
           <Col md={6}>
             <PresetSelector
-              onSelectedPresetChange={ searchUI.setSelectedColumnsPreset }
+              onSelectedPresetChange={ ui.setSelectedColumnsPreset }
               options={ ColumnsPreset.getSelectOptions() }
-              onShowEditorClick={ searchUI.showColumnsPresetEditor }
-              onNewPresetClick={ searchUI.showNewColumnsPresetEditor }
-              selectedPresetId={ searchUI.selectedColumnsPresetId }
+              onShowEditorClick={ ui.showColumnsPresetEditor }
+              onNewPresetClick={ ui.showNewColumnsPresetEditor }
+              selectedPresetId={ ui.selectedColumnsPresetId }
             />
-            { searchUI.showColumnsEditor ? this.renderColumnsPresetEditor() : '' }
+            { ui.showColumnsEditor ? this.renderColumnsPresetEditor() : '' }
           </Col>
           <Col md={6}>
             <PresetSelector
-              onSelectedPresetChange={ searchUI.setSelectedSearchPreset }
+              onSelectedPresetChange={ ui.setSelectedSearchPreset }
               options={ SearchPreset.getSelectOptions() }
-              onShowEditorClick={ searchUI.showSearchPresetEditor }
-              onNewPresetClick={ searchUI.showNewSearchPresetEditor }
-              selectedPresetId={ searchUI.selectedSearchPresetId }
+              onShowEditorClick={ ui.showSearchPresetEditor }
+              onNewPresetClick={ ui.showNewSearchPresetEditor }
+              selectedPresetId={ ui.selectedSearchPresetId }
             />
-            { searchUI.showSearchEditor ? this.renderSearchPresetEditor() : '' }
+            { ui.showSearchEditor ? this.renderSearchPresetEditor() : '' }
           </Col>
         </Row>
         <Row>

@@ -12,6 +12,7 @@ import Button from 'react-bootstrap/lib/Button';
 
 import ColumnHeader from 'views/products/search/column_header';
 import ProductRow from 'views/products/search/product_row';
+import LoadingOverlay from 'views/shared/loading_overlay';
 
 import isEmpty from 'lodash/isEmpty';
 import { openPath } from 'lib/utils';
@@ -65,26 +66,28 @@ export default class ProductSearchResults extends Component {
         </Row>
         <Row>
           <Col md={12}>
-            <Table bordered responsive>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  { columns.map((column, index) => 
-                    <ColumnHeader key={ index } column={ column } />
+            <LoadingOverlay visible={ ui.searching }>
+              <Table bordered responsive>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    { columns.map((column, index) => 
+                      <ColumnHeader key={ index } column={ column } />
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  { products.map((product, index) => 
+                    <ProductRow
+                      key={ product.id }
+                      product={ product }
+                      columns={ columns }
+                      index={ Product.perPage * (ui.page - 1) + index + 1 }
+                    />
                   )}
-                </tr>
-              </thead>
-              <tbody>
-                { products.map((product, index) => 
-                  <ProductRow
-                    key={ product.id }
-                    product={ product }
-                    columns={ columns }
-                    index={ Product.perPage * (ui.page - 1) + index + 1 }
-                  />
-                )}
-              </tbody>
-            </Table>
+                </tbody>
+              </Table>
+            </LoadingOverlay>
           </Col>
         </Row>
         <Row>
@@ -107,17 +110,9 @@ export default class ProductSearchResults extends Component {
     
     let message = '';
 
-    if (isEmpty(ui.query)) {
-      message = 'Empty query';
-    }
+    if (isEmpty(ui.query)) message = 'Empty query';
 
-    if (ui.searching) {
-      message = 'Searching...';
-    }
-
-    if (ui.searchError) {
-      message = 'Error occured';
-    }
+    if (ui.searchError) message = 'An error occured';
 
     if (!message && (!searchResults || isEmpty(searchResults.results))) {      
       message = 'Nothing found';

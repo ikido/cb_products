@@ -14,3 +14,8 @@
 	text-align: right;
 	padding-top: 15px;
 }
+
+.loading-overlay-block {
+  background-color: #ffffff;
+  opacity: 0.5
+}
