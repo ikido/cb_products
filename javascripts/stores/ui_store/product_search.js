@@ -72,6 +72,7 @@ extendObservable(productSearch, {
   query: '',
   queryCaption: '',
   page: 1,
+  perPage: 20,
   userParams: [],
   searching: false,
   searchError: false
@@ -200,6 +201,13 @@ Object.assign(productSearch, {
 		if (param) param.value = value;
 	},
 
+	setPerPage(perPage) {
+		transaction(() => {
+			this.page = 1;
+			this.perPage = perPage;
+		})
+	},
+
 	startAutoSearch() {
 		// debounced search for query that changes too fast
     let debouncedSearch = debounce(this.performSearch, 750);
@@ -230,6 +238,7 @@ Object.assign(productSearch, {
       action({ 
         query: __applyUserParamsToQuery(this.query, toJSON(this.userParams)),
         page: this.page,
+        perPage: this.perPage
       })
 
       // save page & userParams for next call
@@ -252,7 +261,7 @@ Object.assign(productSearch, {
    * spinners and errors, if any
    */
   performSearch(options = {}) {
-    let { query, page } = options;
+    let { query, page, perPage } = options;
 
     // console.log('performSearch', query)
 
@@ -268,6 +277,7 @@ Object.assign(productSearch, {
     Product.search({
       query,
       page,
+      perPage,
       searchId: this.searchId
     }).then(response => {
     	transaction(() => {
@@ -311,5 +321,6 @@ export default bindAll(productSearch, [
 	'hideSearchPresetEditor',
 	'hideColumnsPresetEditor',
 	'setPage',
+	'setPerPage',
 	'performSearch'
 ]);

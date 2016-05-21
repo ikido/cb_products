@@ -3,6 +3,7 @@ import { SearchStore, UIStore } from 'stores';
 import { Product } from 'models';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
+import Select from 'react-select';
 
 import Pagination from 'react-bootstrap/lib/Pagination';
 import Table from 'react-bootstrap/lib/Table';
@@ -18,6 +19,10 @@ import isEmpty from 'lodash/isEmpty';
 import { openPath } from 'lib/utils';
 
 const ui = UIStore.productSearch;
+
+const perPageOptions = [20, 50, 100, 500].map(v => {
+  return { value: v, label: v }
+});
 
 @observer
 export default class ProductSearchResults extends Component {
@@ -39,6 +44,11 @@ export default class ProductSearchResults extends Component {
     openPath(`/products/export?es_query=${ui.query}&columns=${ui.columns}`)
   }
 
+  handlePerPageChange = (item) => {
+    console.log(item.value)
+    ui.setPerPage(item.value)
+  }
+
   renderSearchResults(searchResults) {
     const columns = ui.getPreparedColumns();
 
@@ -46,15 +56,17 @@ export default class ProductSearchResults extends Component {
     const products = searchResults.results.map(id => Product.get(id));
 
     // searchResults contain total number of products
-    const totalPages = Math.ceil(searchResults.total / Product.perPage)    
+    const totalPages = Math.ceil(searchResults.total / ui.perPage)    
 
     return (
       <div>
-        <Row>
-          <Col md={10}>
+        <Row>          
+          <Col md={9}>
             <Pagination
               first
               last
+              next
+              prev
               boundaryLinks
               maxButtons={ 10 }
               bsSize="medium"
@@ -65,6 +77,15 @@ export default class ProductSearchResults extends Component {
           </Col>
           <Col md={2} className='export-container'>
             <Button bsStyle="success" onClick={ this.handleExportClick }>Export results</Button>
+          </Col>
+          <Col md={1} className='per-page-container'>
+            <Select
+              searchable={ false }
+              clearable={ false }
+              value={ ui.perPage }
+              options={ perPageOptions }
+              onChange={ this.handlePerPageChange }
+            />
           </Col>
         </Row>
         <Row>
@@ -85,7 +106,7 @@ export default class ProductSearchResults extends Component {
                       key={ product.id }
                       product={ product }
                       columns={ columns }
-                      index={ Product.perPage * (ui.page - 1) + index + 1 }
+                      index={ ui.perPage * (searchResults.page - 1) + index + 1 }
                     />
                   )}
                 </tbody>
@@ -94,16 +115,27 @@ export default class ProductSearchResults extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={10}>
+          <Col md={11}>
             <Pagination
               first
               last
+              next
+              prev
               boundaryLinks
               maxButtons={ 10 }
               bsSize="medium"
               items={ totalPages }
               activePage={ ui.page }
               onSelect={ this.handlePageChange }
+            />
+          </Col>
+          <Col md={1} className='per-page-container'>
+            <Select
+              searchable={ false }
+              clearable={ false }
+              value={ ui.perPage }
+              options={ perPageOptions }
+              onChange={ this.handlePerPageChange }
             />
           </Col>
         </Row>
