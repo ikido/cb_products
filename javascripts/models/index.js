@@ -10,8 +10,8 @@ import ColumnsPreset from 'models/column_preset';
 import SearchPreset from 'models/search_preset';
 
 export {
-	AttributeType,
-	Product,
-	ColumnsPreset,
-	SearchPreset
+  AttributeType,
+  Product,
+  ColumnsPreset,
+  SearchPreset
 }

@@ -4,16 +4,16 @@ import { BaseModel } from 'mobx-model';
 import { autorun } from 'mobx';
 
 export default class AttributeType extends BaseModel {
-	
-	static attributes = {
-		caption: '',
-		valueType: '',
-		localized: false,
-		name: ''
-	};
+  
+  static attributes = {
+    caption: '',
+    valueType: '',
+    localized: false,
+    name: ''
+  };
 
-	// calculated list of attribute names to display dropzone for
-	static fileAttributes = [];
+  // calculated list of attribute names to display dropzone for
+  static fileAttributes = [];
 
 }
 
@@ -22,9 +22,9 @@ export default class AttributeType extends BaseModel {
  * attribute types will be updated
  */
 autorun(() => {
-	AttributeType.fileAttributes = AttributeType.all()
-		.slice()
-		.filter(a => a.valueType === 'File')
-		.map(a => a.name)
+  AttributeType.fileAttributes = AttributeType.all()
+    .slice()
+    .filter(a => a.valueType === 'File')
+    .map(a => a.name)
 })
 

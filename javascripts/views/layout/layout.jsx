@@ -18,10 +18,10 @@ export default class Layout extends Component {
       <div>
         <NotificationSystem ref="notificationSystem" allowHTML={ true }/>
         <div id='layout'>
-        	<Header />
-        	<Sidebar />
-        	{ this.props.children }
-        	<Footer />        
+          <Header />
+          <Sidebar />
+          { this.props.children }
+          <Footer />        
         </div>
       </div>
     );

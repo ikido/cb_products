@@ -22,10 +22,10 @@ export default class ProductRow extends Component {
 
   render() {
     return (
-    	<tr onDoubleClick={ this.handleDoubleClick }>
+      <tr onDoubleClick={ this.handleDoubleClick }>
         <td>{ this.props.index }</td>
         { this.props.columns.map((column, index) => 
-        	<ProductColumn column={ column } product={ this.props.product } key={ index } />
+          <ProductColumn column={ column } product={ this.props.product } key={ index } />
         )}
       </tr>
     )

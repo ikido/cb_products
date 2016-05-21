@@ -17,20 +17,20 @@ const requireAuth = (nextState, replace) => {
   }
 
   if (nextState.location.pathname !== '/product-search') {
-  	replace({
-  		pathname: '/product-search'
-  	})
+    replace({
+      pathname: '/product-search'
+    })
   }
 }
 
 const routes =
-	<Router history={ hashHistory }>
-		<Route path='/login' component={ Login } />
-		<Route path='/' component={ Layout } onEnter={ requireAuth }>
-			<Route path="product-search" component={ ProductSearch } />
-			<Route path="*" component={ Notfound } />
-		</Route>
-		
-	</Router>
+  <Router history={ hashHistory }>
+    <Route path='/login' component={ Login } />
+    <Route path='/' component={ Layout } onEnter={ requireAuth }>
+      <Route path="product-search" component={ ProductSearch } />
+      <Route path="*" component={ Notfound } />
+    </Route>
+    
+  </Router>
 
 export default routes

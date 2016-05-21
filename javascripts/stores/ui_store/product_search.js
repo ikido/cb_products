@@ -17,7 +17,7 @@ const userParamPattern = /\{(.*?)\}/g; // [user|userParam]
 /*
  * Returns array of param objects, each with name, prefix and empty value
  */
-const __getParamsFromQuery = function(query) {	
+const __getParamsFromQuery = function(query) {  
   let match, matches = [];
 
   while (match = userParamPattern.exec(query)) {
@@ -25,30 +25,30 @@ const __getParamsFromQuery = function(query) {
   };
 
   return matches.map((match, id) => {
-		const [name, prefix] = match.split(':');
-		return { id, name, prefix, value: '' };
+    const [name, prefix] = match.split(':');
+    return { id, name, prefix, value: '' };
   })
 }
 
 const __applyUserParamsToQuery = function(query = '', userParams = []) {
-	let id = 0;
+  let id = 0;
 
-	let newQuery = query.replace(userParamPattern, (match) => {
-		let replacement;
-		const param = find(userParams, { id });
+  let newQuery = query.replace(userParamPattern, (match) => {
+    let replacement;
+    const param = find(userParams, { id });
 
-		if (!isEmpty(param.value)) {
-			replacement = isEmpty(param.prefix) ? param.value : `${param.prefix.toUpperCase()} ${param.value}`;
-		} else {
-			replacement = '';
-		}
+    if (!isEmpty(param.value)) {
+      replacement = isEmpty(param.prefix) ? param.value : `${param.prefix.toUpperCase()} ${param.value}`;
+    } else {
+      replacement = '';
+    }
 
-		id++;
-		return replacement;
-	});
+    id++;
+    return replacement;
+  });
 
-	//console.log('__applyUserParamsToQuery', query, newQuery);
-	return newQuery;
+  //console.log('__applyUserParamsToQuery', query, newQuery);
+  return newQuery;
 };
 
 
@@ -63,7 +63,7 @@ let productSearch = {};
  * is simple and flat and is defined here for reference
  */
 extendObservable(productSearch, {
-	selectedColumnsPresetId: null,
+  selectedColumnsPresetId: null,
   selectedSearchPresetId: null,
   showColumnsEditor: false,
   showSearchEditor: false,
@@ -80,136 +80,136 @@ extendObservable(productSearch, {
 
 Object.assign(productSearch, {
 
-	// unique id for product search
-	searchId: uniqueId('product_search_'),
+  // unique id for product search
+  searchId: uniqueId('product_search_'),
 
-	/*
-	 * Update query caption and query itself
-	 * when preset was selected or deselected
-	 */
-	setSelectedSearchPreset(item = null) {
-	  let preset, presetId;
-		
-		presetId = isNumber(item) ? item : (item || {}).value;
-	  
-	  transaction(() => {
-		  this.selectedSearchPresetId = presetId;
+  /*
+   * Update query caption and query itself
+   * when preset was selected or deselected
+   */
+  setSelectedSearchPreset(item = null) {
+    let preset, presetId;
+    
+    presetId = isNumber(item) ? item : (item || {}).value;
+    
+    transaction(() => {
+      this.selectedSearchPresetId = presetId;
 
-		  if (!!presetId) preset = SearchPreset.get(presetId);
+      if (!!presetId) preset = SearchPreset.get(presetId);
 
-		  if (!!preset) {            
-		    this.setQueryCaption(preset.caption);
-		    this.setQuery(preset.query);
-		  } else {
-		    this.setQueryCaption('');
-		    this.setQuery('');
-		  }
+      if (!!preset) {            
+        this.setQueryCaption(preset.caption);
+        this.setQuery(preset.query);
+      } else {
+        this.setQueryCaption('');
+        this.setQuery('');
+      }
 
-		  this.hideSearchPresetEditor();
-		});
-	},
+      this.hideSearchPresetEditor();
+    });
+  },
 
-	/*
-	 * Update columns caption and columns itself
-	 * when preset was selected or deselected
-	 */
-	setSelectedColumnsPreset(item = null) {
-	  let preset, presetId;
+  /*
+   * Update columns caption and columns itself
+   * when preset was selected or deselected
+   */
+  setSelectedColumnsPreset(item = null) {
+    let preset, presetId;
 
-	  presetId = isNumber(item) ? item : (item || {}).value;
+    presetId = isNumber(item) ? item : (item || {}).value;
 
-	  transaction(() => {
-	    this.selectedColumnsPresetId = presetId;
+    transaction(() => {
+      this.selectedColumnsPresetId = presetId;
 
-	    if (!!presetId) preset = ColumnsPreset.get(presetId);
+      if (!!presetId) preset = ColumnsPreset.get(presetId);
 
-	    if (!!preset) {            
-	      this.setColumnsCaption(preset.caption);
-	      this.setColumns(preset.columns);	      
-	    } else {
-	      this.setColumnsCaption('');
-	      this.setColumns('');
-	    }
+      if (!!preset) {            
+        this.setColumnsCaption(preset.caption);
+        this.setColumns(preset.columns);        
+      } else {
+        this.setColumnsCaption('');
+        this.setColumns('');
+      }
 
-	    this.hideColumnsPresetEditor();
+      this.hideColumnsPresetEditor();
 
-	  });
-	},
+    });
+  },
 
-	// clear selected preset and show the editor
-	showNewSearchPresetEditor() {
-		transaction(() => {
-	  	this.setSelectedSearchPreset(null)
-	  	this.showSearchPresetEditor();
-	  });
-	},
+  // clear selected preset and show the editor
+  showNewSearchPresetEditor() {
+    transaction(() => {
+      this.setSelectedSearchPreset(null)
+      this.showSearchPresetEditor();
+    });
+  },
 
-	showNewColumnsPresetEditor() {
-		transaction(() => {
-	  	this.setSelectedColumnsPreset(null)
-	  	this.showColumnsPresetEditor();
-	  });
-	},
+  showNewColumnsPresetEditor() {
+    transaction(() => {
+      this.setSelectedColumnsPreset(null)
+      this.showColumnsPresetEditor();
+    });
+  },
 
-	// show the editor
-	showSearchPresetEditor() {
-	  this.showSearchEditor = true;
-	},
+  // show the editor
+  showSearchPresetEditor() {
+    this.showSearchEditor = true;
+  },
 
-	showColumnsPresetEditor() {
-	  this.showColumnsEditor = true;
-	},
+  showColumnsPresetEditor() {
+    this.showColumnsEditor = true;
+  },
 
-	setQueryCaption(newValue) {
-		this.queryCaption = newValue;
-	},
+  setQueryCaption(newValue) {
+    this.queryCaption = newValue;
+  },
 
-	// update search query and reset search page
-	setQuery(newValue) {
-		transaction(() => {
-			this.query = newValue;
-			this.page = 1;
-			this.userParams = __getParamsFromQuery(newValue);
-		});
-	},
+  // update search query and reset search page
+  setQuery(newValue) {
+    transaction(() => {
+      this.query = newValue;
+      this.page = 1;
+      this.userParams = __getParamsFromQuery(newValue);
+    });
+  },
 
-	setColumnsCaption(newValue) {
-		this.columnsCaption = newValue;
-	},
+  setColumnsCaption(newValue) {
+    this.columnsCaption = newValue;
+  },
 
-	setColumns(newValue) {
-		this.columns = newValue;
-	},
+  setColumns(newValue) {
+    this.columns = newValue;
+  },
 
-	// TODO: should we reset unsaved changes in query?
-	hideSearchPresetEditor() {
-		this.showSearchEditor = false;
-	},
+  // TODO: should we reset unsaved changes in query?
+  hideSearchPresetEditor() {
+    this.showSearchEditor = false;
+  },
 
-	// TODO: should we reset unsaved changes in columns?
-	hideColumnsPresetEditor() {
-		this.showColumnsEditor = false;
-	},
+  // TODO: should we reset unsaved changes in columns?
+  hideColumnsPresetEditor() {
+    this.showColumnsEditor = false;
+  },
 
-	setPage(newPage) {
-		this.page = newPage;
-	},
+  setPage(newPage) {
+    this.page = newPage;
+  },
 
-	setUserParam(id, value) {
-		// console.log('setUserParam', name, value)
-		let param = find(this.userParams, { id });
-		if (param) param.value = value;
-	},
+  setUserParam(id, value) {
+    // console.log('setUserParam', name, value)
+    let param = find(this.userParams, { id });
+    if (param) param.value = value;
+  },
 
-	setPerPage(perPage) {
-		transaction(() => {
-			this.page = 1;
-			this.perPage = perPage;
-		})
-	},
+  setPerPage(perPage) {
+    transaction(() => {
+      this.page = 1;
+      this.perPage = perPage;
+    })
+  },
 
-	startAutoSearch() {
-		// debounced search for query that changes too fast
+  startAutoSearch() {
+    // debounced search for query that changes too fast
     let debouncedSearch = debounce(this.performSearch, 750);
 
     /*
@@ -245,17 +245,17 @@ Object.assign(productSearch, {
       this.previousQuery = this.query;
       this.previousUserParams = toJSON(this.userParams);
     });
-	},
+  },
 
-	stopAutoSearch() {
+  stopAutoSearch() {
     /* 
      * mobx autorun method return a function to dispose search,
      * we should do that when component is going to unmount
      */
      this.disposeSearch();
-	},
+  },
 
-	/*
+  /*
    * Method to actually perform the search
    * We want it in a component to display loading
    * spinners and errors, if any
@@ -266,8 +266,8 @@ Object.assign(productSearch, {
     // console.log('performSearch', query)
 
     transaction(() => {
-    	this.searching = true;
-    	this.searchError = false;
+      this.searching = true;
+      this.searchError = false;
     });
 
     /*
@@ -280,10 +280,10 @@ Object.assign(productSearch, {
       perPage,
       searchId: this.searchId
     }).then(response => {
-    	transaction(() => {
-    		this.searching = false;
-    		this.searchError = !response.ok;
-    	})
+      transaction(() => {
+        this.searching = false;
+        this.searchError = !response.ok;
+      })
     })
   },
 
@@ -302,25 +302,25 @@ Object.assign(productSearch, {
   },
 
   getSearchResults() {
-  	return SearchStore.get(this.searchId);
+    return SearchStore.get(this.searchId);
   }
 
 });
 
 export default bindAll(productSearch, [
-	'setSelectedSearchPreset',
-	'setSelectedColumnsPreset',
-	'showNewSearchPresetEditor',
-	'showNewColumnsPresetEditor',
-	'showSearchPresetEditor',
-	'showColumnsPresetEditor',
-	'setQuery',
-	'setQueryCaption',
-	'setColumns',
-	'setColumnsCaption',
-	'hideSearchPresetEditor',
-	'hideColumnsPresetEditor',
-	'setPage',
-	'setPerPage',
-	'performSearch'
+  'setSelectedSearchPreset',
+  'setSelectedColumnsPreset',
+  'showNewSearchPresetEditor',
+  'showNewColumnsPresetEditor',
+  'showSearchPresetEditor',
+  'showColumnsPresetEditor',
+  'setQuery',
+  'setQueryCaption',
+  'setColumns',
+  'setColumnsCaption',
+  'hideSearchPresetEditor',
+  'hideColumnsPresetEditor',
+  'setPage',
+  'setPerPage',
+  'performSearch'
 ]);

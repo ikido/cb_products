@@ -17,59 +17,59 @@ import { UIStore } from 'stores';
 @observer
 export default class AttributeTypeSelector extends Component {
 
-	static propTypes = {
-		disabled: PropTypes.bool
-	}
+  static propTypes = {
+    disabled: PropTypes.bool
+  }
 
-	state = {
-		selectedAttributeTypeId: null
-	}
+  state = {
+    selectedAttributeTypeId: null
+  }
 
-	getAttributeTypeOptions() {
-		return AttributeType.all().slice().map(attributeType => {
-			return { value: attributeType.id, label: attributeType.caption }
-		});
-	}
+  getAttributeTypeOptions() {
+    return AttributeType.all().slice().map(attributeType => {
+      return { value: attributeType.id, label: attributeType.caption }
+    });
+  }
 
-	handleAttributeTypeSelectChange = (selectedItem) => {
-		let newValue = isObject(selectedItem) ? selectedItem.value : '';
-		this.setState({ selectedAttributeTypeId: newValue });
-	}
+  handleAttributeTypeSelectChange = (selectedItem) => {
+    let newValue = isObject(selectedItem) ? selectedItem.value : '';
+    this.setState({ selectedAttributeTypeId: newValue });
+  }
 
-	addAttributeType = () => {
-		let searchUI = UIStore.productSearch;
+  addAttributeType = () => {
+    let searchUI = UIStore.productSearch;
 
-		let selectedAttributeType = AttributeType.get(this.state.selectedAttributeTypeId);
-		let caption = selectedAttributeType.caption.replace(/,/g, '');
+    let selectedAttributeType = AttributeType.get(this.state.selectedAttributeTypeId);
+    let caption = selectedAttributeType.caption.replace(/,/g, '');
 
-		let newValue = `\nattributes.${selectedAttributeType.name}, ${caption}`;
-		
-		// here we actually add selected attribute to preset's columns
-		searchUI.setColumns(searchUI.columns+newValue);
+    let newValue = `\nattributes.${selectedAttributeType.name}, ${caption}`;
+    
+    // here we actually add selected attribute to preset's columns
+    searchUI.setColumns(searchUI.columns+newValue);
 
-		this.setState({ selectedAttributeTypeId: null });
-	}
+    this.setState({ selectedAttributeTypeId: null });
+  }
 
-	render() {
-		return (
-			<Row style={{ marginBottom: '18px' }}>
-				<Col md={4}>
-					<label className="control-label">
-						<span>Add attribute</span>
-					</label>
-					<Select
-						value={ this.state.selectedAttributeTypeId }
-						options={ this.getAttributeTypeOptions() }
-						onChange={ this.handleAttributeTypeSelectChange }
-						disabled={ this.props.disabled }
-					/>
-				</Col>
-				<Col md={4}>
-					<Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }} disabled={ this.props.disabled }>
-						Add
-					</Button>
-				</Col>
-			</Row>
-		)
-	}
+  render() {
+    return (
+      <Row style={{ marginBottom: '18px' }}>
+        <Col md={4}>
+          <label className="control-label">
+            <span>Add attribute</span>
+          </label>
+          <Select
+            value={ this.state.selectedAttributeTypeId }
+            options={ this.getAttributeTypeOptions() }
+            onChange={ this.handleAttributeTypeSelectChange }
+            disabled={ this.props.disabled }
+          />
+        </Col>
+        <Col md={4}>
+          <Button bsStyle='success' onClick={ this.addAttributeType }  style={{ marginTop: '24px' }} disabled={ this.props.disabled }>
+            Add
+          </Button>
+        </Col>
+      </Row>
+    )
+  }
 }

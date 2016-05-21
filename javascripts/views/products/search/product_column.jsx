@@ -36,8 +36,8 @@ export default class ProductColumn extends Component {
   
   static propTypes = {
     column: PropTypes.shape({
-    	path: PropTypes.string.isRequired,
-    	header: PropTypes.string
+      path: PropTypes.string.isRequired,
+      header: PropTypes.string
     }).isRequired,
     product: PropTypes.object.isRequired
   }

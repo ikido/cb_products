@@ -13,7 +13,7 @@ BaseModel.addClassAction('loadAll', function() {
     endpoint: this.urlRoot,
     onSuccess: (response) => {
       response.body.forEach(modelJson => {
-      	this.set({ modelJson })
+        this.set({ modelJson })
       });      
     }
   });
