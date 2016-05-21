@@ -12,6 +12,24 @@ import SpinnerIcon from 'views/shared/spinner_icon';
 import { UIStore } from 'stores';
 import BPromise from 'bluebird';
 
+// TODO: move dz styles to stylesheet
+const dropzoneStyle = {
+  width: '100%',
+  minWidth: '150px',
+  height: '50px',
+  borderWidth: 2,
+  borderColor: '#666',
+  borderStyle: 'dashed',
+  borderRadius: 5,
+  padding: '12px 0 0 12px',
+  cursor: 'pointer'
+};
+
+const loaderStyle = Object.assign({}, dropzoneStyle, {
+  borderWidth: 0,
+  minWidth: '150px',
+  cursor: 'arrow'
+});
 
 @observer
 export default class ProductColumn extends Component {
@@ -56,16 +74,20 @@ export default class ProductColumn extends Component {
     return (attibutes === 'attributes' && includes(AttributeType.fileAttributes, attrName))
   }
 
-  renderDropZone() {
+  renderDropZone(fileCount) {
     return (
-      <Dropzone onDrop={ this.handleDrop } multiple={ true }>
-        <div>Drop a file here or click to upload</div>
+      <Dropzone onDrop={ this.handleDrop } multiple={ true } style={ dropzoneStyle }>
+        <div>Files: {fileCount}</div>
       </Dropzone>
     )
   }
 
   renderLoading() {
-    return <span>Uploading file &nbsp; <SpinnerIcon /></span>
+    return (
+      <div style={ loaderStyle }>
+        Uploading file &nbsp; <SpinnerIcon />
+      </div>
+    )
   }
 
   render() {
@@ -84,9 +106,7 @@ export default class ProductColumn extends Component {
 
       return (
         <td>
-          { columnValue }
-          <br />
-          { this.state.loading ? this.renderLoading() : this.renderDropZone() }
+          { this.state.loading ? this.renderLoading() : this.renderDropZone(columnValue) }
         </td>
       );
     } else {
