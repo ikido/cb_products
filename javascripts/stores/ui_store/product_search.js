@@ -47,7 +47,7 @@ const __applyUserParamsToQuery = function(query = '', userParams = []) {
 		return replacement;
 	});
 
-	console.log('__applyUserParamsToQuery', query, newQuery);
+	//console.log('__applyUserParamsToQuery', query, newQuery);
 	return newQuery;
 };
 

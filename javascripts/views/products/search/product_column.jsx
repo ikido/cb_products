@@ -61,9 +61,16 @@ export default class ProductColumn extends Component {
     
     let columnValue = result(this.props.product.toJSON(), this.props.column.path);
 
-    if (!!columnValue && this.isFileColumn()) {
-      // TODO: remove this check when server will always return array for this field type
-      columnValue = !!columnValue.slice ? columnValue.length : 1;
+    if (this.isFileColumn()) {
+
+      if (!!columnValue) {
+        // TODO: remove this check when server will always return array for this field type
+        // now it returns object if there's one file
+        columnValue = !!columnValue.slice ? columnValue.length : 1;
+      } else {
+        columnValue = 0;
+      }
+
       return (
         <td>
           { columnValue }
