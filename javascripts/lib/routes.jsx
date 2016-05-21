@@ -9,21 +9,25 @@ import Notfound from 'views/errors/not_found';
 import Auth from 'lib/auth';
 
 const requireAuth = (nextState, replace) => {
+	// console.log(nextState.location.pathname)
+	const pathName = nextState.location.pathname === '/' ? '/product-search' : nextState.location.pathname
+
   if (!Auth.loggedIn()) {
     replace({
       pathname: '/login',
-      state: { nextPathname: nextState.location.pathname }
+      state: { nextPathname: pathName }
     });
   }
 }
 
 const routes =
 	<Router history={ hashHistory }>
-		<Route path='/' component={ Layout }>
-			<IndexRoute component={ ProductSearch } onEnter={ requireAuth } />
-			<Route path="login" component={ Login } />
+		<Route path='/login' component={ Login } />
+		<Route path='/' component={ Layout } onEnter={ requireAuth }>
+			<Route path="product-search" component={ ProductSearch } />
 			<Route path="*" component={ Notfound } />
 		</Route>
+		
 	</Router>
 
 export default routes

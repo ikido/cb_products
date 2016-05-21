@@ -38,6 +38,7 @@ export default class ProductSearch extends Component {
 				const { location } = this.props
 
 				if (location.state && location.state.nextPathname) {
+					console.log()
 	        this.context.router.replace(location.state.nextPathname)
 	      } else {
 	        this.context.router.replace('/')

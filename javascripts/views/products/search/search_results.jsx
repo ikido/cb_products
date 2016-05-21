@@ -115,7 +115,7 @@ export default class ProductSearchResults extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={11}>
+          <Col md={10}>
             <Pagination
               first
               last
@@ -129,7 +129,7 @@ export default class ProductSearchResults extends Component {
               onSelect={ this.handlePageChange }
             />
           </Col>
-          <Col md={1} className='per-page-container'>
+          <Col md={2} className='per-page-container'>
             <Select
               searchable={ false }
               clearable={ false }
