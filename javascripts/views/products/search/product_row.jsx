@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import toString from 'lodash/toString';
 import result from 'lodash/result';
 import ProductColumn from 'views/products/search/product_column';
+import { openPath } from 'lib/utils';
 
 @observer
 export default class ProductRow extends Component {
@@ -16,8 +17,7 @@ export default class ProductRow extends Component {
   };
 
   handleDoubleClick = () => {
-    const url = `${window.location.protocol}//${window.location.hostname}/products/product/${this.props.product.id}/overview`
-    window.open(url,'_blank');
+    openPath(`/products/product/${this.props.product.id}/overview`)
   }
 
   render() {

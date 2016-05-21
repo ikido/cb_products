@@ -9,8 +9,6 @@ import Input from 'react-bootstrap/lib/Input';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 
-import './search_params.css';
-
 /*
   
   * Params should be defined as {paramName:precedeWith} or just {paramName}

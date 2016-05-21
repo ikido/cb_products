@@ -5,3 +5,12 @@
 .preset-buttons {
 	margin-top: 24px;	
 }
+
+.product-user-search-params {
+	float: right !important;
+}
+
+.export-container {
+	text-align: right;
+	padding-top: 15px;
+}
