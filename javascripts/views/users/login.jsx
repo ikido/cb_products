@@ -52,11 +52,8 @@ export default class ProductSearch extends Component {
 
 	render() {
 		return (
-			<Page
-				breadcrumbs={ 'Home / Login' }
-				title='Login'
-			>
-				<div className="well no-padding col-md-6">
+			<div className='row' style={{ marginTop: '100px' }}>
+				<div className="well no-padding col-md-4 col-md-offset-4">
 					<form className="smart-form client-form">
 						<header>
 							Sign In
@@ -82,7 +79,7 @@ export default class ProductSearch extends Component {
 						</footer>
 					</form>
 				</div>
-			</Page>
+			</div>
 		)
 	}
 }
