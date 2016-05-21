@@ -100,7 +100,7 @@ Object.assign(productSearch, {
 		    this.setQueryCaption(preset.caption);
 		    this.setQuery(preset.query);
 		  } else {
-		    this.this.setQueryCaption('');
+		    this.setQueryCaption('');
 		    this.setQuery('');
 		  }
 
@@ -256,7 +256,7 @@ Object.assign(productSearch, {
 
     if (isEmpty(query)) return;
 
-    console.log('performSearch', query)
+    // console.log('performSearch', query)
 
     transaction(() => {
     	this.searching = true;

@@ -80,6 +80,8 @@ export default class PresetEditor extends Component {
     	} else {
     		UIStore.notification.errors(response.body.caption)
     	}
+
+    	return null;
     });
   }
 

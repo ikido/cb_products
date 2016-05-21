@@ -10,6 +10,8 @@ import Dropzone from 'react-dropzone';
 import { observer } from 'mobx-react';
 import SpinnerIcon from 'views/shared/spinner_icon';
 import { UIStore } from 'stores';
+import BPromise from 'bluebird';
+
 
 @observer
 export default class ProductColumn extends Component {
@@ -29,13 +31,22 @@ export default class ProductColumn extends Component {
       let attributeTypeName = this.props.column.path.split('.').slice(-1)[0];  
 
       this.setState({ loading: true });
-      this.props.product.uploadFile({ file: files[0], attributeTypeName }).then(response => {
+
+      const promises = files.map(file => {
+        return this.props.product.uploadFile({ file, attributeTypeName }).then(response => {
+
+          if (response.ok) {
+            UIStore.notification.success('File uploaded')
+          } else {
+            UIStore.notification.error(response.body.details)
+          }
+
+          return response
+        })
+      })
+
+      BPromise.all(promises).then(() => {
         this.setState({ loading: false })
-        if (response.ok) {
-          UIStore.notification.success('File uploaded')
-        } else {
-          UIStore.notification.error(response.body.details)
-        }
       })
     }      
   }
@@ -47,7 +58,7 @@ export default class ProductColumn extends Component {
 
   renderDropZone() {
     return (
-      <Dropzone onDrop={ this.handleDrop } multiple={ false }>
+      <Dropzone onDrop={ this.handleDrop } multiple={ true }>
         <div>Drop a file here or click to upload</div>
       </Dropzone>
     )
