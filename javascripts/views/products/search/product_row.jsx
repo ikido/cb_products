@@ -15,9 +15,14 @@ export default class ProductRow extends Component {
     index: PropTypes.number.isRequired
   };
 
+  handleDoubleClick = () => {
+    const url = `${window.location.protocol}//${window.location.hostname}/products/product/${this.props.product.id}/overview`
+    window.open(url,'_blank');
+  }
+
   render() {
     return (
-    	<tr>
+    	<tr onDoubleClick={ this.handleDoubleClick }>
         <td>{ this.props.index }</td>
         { this.props.columns.map((column, index) => 
         	<ProductColumn column={ column } product={ this.props.product } key={ index } />
