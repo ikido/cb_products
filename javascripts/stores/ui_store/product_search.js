@@ -3,6 +3,33 @@ import { ColumnsPreset, SearchPreset } from 'models';
 import bindAll from 'lodash/bindAll';
 import isNumber from 'lodash/isNumber';
 import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+
+/*
+ * Returns array of param objects, each with name, prefix and empty value
+ */
+const __getParamsFromQuery = function(query) {
+	const pattern = /\{(.+?)\}/g; // [user|userParam]
+  
+  let match, matches = [];
+
+  while (match = pattern.exec(query)) {
+    matches.push(match[1]);
+  }
+
+  // console.log(query, pattern, matches)
+
+  return matches.map(match => {
+  	let [name, prefix] = match.split(':');
+
+  	return {
+  		name,
+  		prefix,
+  		value: ''
+  	}
+  })
+}
+
 
 let productSearch = {}
 
@@ -23,7 +50,8 @@ extendObservable(productSearch, {
   columns: '',
   query: '',
   queryCaption: '',
-  page: 1
+  page: 1,
+  userParams: []
 });
 
 Object.assign(productSearch, {
@@ -113,6 +141,7 @@ Object.assign(productSearch, {
 		transaction(() => {
 			this.query = newValue;
 			this.page = 1;
+			this.userParams = __getParamsFromQuery(newValue);
 		});
 	},
 
@@ -124,16 +153,24 @@ Object.assign(productSearch, {
 		this.columns = newValue;
 	},
 
+	// TODO: should we reset unsaved changes in query?
 	hideSearchPresetEditor() {
 		this.showSearchEditor = false;
 	},
 
+	// TODO: should we reset unsaved changes in columns?
 	hideColumnsPresetEditor() {
 		this.showColumnsEditor = false;
 	},
 
 	setPage(newPage) {
 		this.page = newPage;
+	},
+
+	setUserParam(name, value) {
+		// console.log('setUserParam', name, value)
+		let param = find(this.userParams, { name });
+		if (param) param.value = value;
 	}
 
 });

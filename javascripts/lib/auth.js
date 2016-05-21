@@ -3,8 +3,6 @@
 import jwtDecode from 'jwt-decode';
 import { API } from 'mobx-model';
 
-const urlRoot = 'https://products.test.cb.bis.nl/api';
-
 let Auth = {
 	
 	login(attributes = {}) {

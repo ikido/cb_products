@@ -13,6 +13,7 @@ import PresetSelector from 'views/products/search/preset_selector';
 import PresetEditor from 'views/products/search/preset_editor';
 import AttributeTypeSelector from 'views/products/search/attribute_type_selector';
 import SearchResults from 'views/products/search/search_results';
+import SearchParams from 'views/products/search/search_params';
 
 import { UIStore } from 'stores';
 
@@ -103,6 +104,7 @@ export default class ProductSearch extends Component {
         </Row>
         <Row>
           <Col md={12}>
+            <SearchParams />
             <SearchResults />
           </Col>
         </Row>
